@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloudhearing.ealbum.mapper.DeviceMapper">
+    <resultMap id="DeviceResultMap" type="Device">
+        <id column="id" property="id"/>
+        <result column="activate_time" property="activateTime"/>
+        <result column="last_online_time" property="lastOnlineTime"/>
+        <result column="region" property="region"/>
+        <result column="model" property="model"/>
+        <result column="sn" property="sn"/>
+        <result column="firmware_version" property="firmwareVersion"/>
+        <result column="used_space" property="usedSpace"/>
+        <result column="total_space" property="totalSpace"/>
+        <result column="email" property="email"/>
+        <collection property="owners" columnPrefix="user_"
+                    resultMap="com.cloudhearing.ealbum.mapper.UserMapper.UserResultMap"/>
+    </resultMap>
+
+    <select id="listAll" resultMap="DeviceResultMap">
+        select* from devices
+    </select>
+
+    <insert id="addDevice" parameterType="Device">
+        insert into devices
+        (id, activate_time, last_online_time,region,model,sn,firmware_version
+        )
+        values
+        (uuid(),now(),now(),#{region},#{model},#{sn},#{firmwareVersion})
+    </insert>
+
+    <update id="updateDevice">
+        update devices
+        <set>
+            <if test="region != null">
+                region = #{region},
+            </if>
+
+            <if test="model != null">
+                model = #{model},
+            </if>
+
+            <if test="firmwareVersion != null">
+                firmware_version = #{firmwareVersion},
+            </if>
+
+            <if test="usedSpace != null">
+                used_space = #{usedSpace},
+            </if>
+
+            <if test="totalSpace != null">
+                total_space = #{totalSpace},
+            </if>
+
+            <if test="email != null">
+                email = #{email},
+            </if>
+
+        </set>
+        where id=#{id}
+    </update>
+
+
+</mapper>

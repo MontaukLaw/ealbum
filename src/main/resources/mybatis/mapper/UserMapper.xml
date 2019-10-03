@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.cloudhearing.ealbum.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="User">
+        <id column="id" property="id"/>
+        <result column="username" property="username"/>
+        <result column="icon" property="icon"/>
+        <result column="region" property="region"/>
+        <result column="cell_model" property="cellModel"/>
+        <result column="reg_time" property="regTime"/>
+        <result column="email" property="email"/>
+        <result column="cell_number" property="cellNumber"/>
+        <result column="password" property="password"/>
+        <collection property="devices" columnPrefix="device_"
+                    resultMap="com.cloudhearing.ealbum.mapper.DeviceMapper.DeviceResultMap"/>
+    </resultMap>
+
+    <select id="checkLogin" resultMap="UserResultMap">
+        select id, username, icon,region,cell_model,
+        reg_time,email,cell_number,password
+        from users
+        where (email =#{email} and password =#{password} and state = 1)
+        or (cell_number =#{cellNumber} and password =#{password} and state = 1)
+    </select>
+
+    <select id="listAll" resultMap="UserResultMap">
+        select id, username, icon,region cell_model, reg_time,email,cell_number from users where state = 1
+    </select>
+
+    <insert id="addUser" parameterType="User">
+        insert into users
+        (id, username, icon, region, cell_model, reg_time, email, cell_number,password )
+        values
+        (uuid(),#{username},#{icon},#{region},#{cellModel},now(),#{email},#{cellNumber},#{password})
+    </insert>
+
+    <update id="removeUser">
+        update users
+        set state=0
+        where id = #{id}
+    </update>
+
+    <update id="editUser">
+        update users
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+
+            <if test="region != null">
+                region = #{region},
+            </if>
+
+            <if test="icon != null">
+                icon = #{icon},
+            </if>
+
+            <if test="cellModel != null">
+                cell_model = #{cellModel},
+            </if>
+
+            <if test="email != null">
+                email = #{email},
+            </if>
+
+            <if test="cellNumber != null">
+                cell_number = #{cellNumber},
+            </if>
+
+            <if test="password != null">
+                password = #{password},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+
+</mapper>
