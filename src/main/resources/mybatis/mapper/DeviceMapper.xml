@@ -43,11 +43,11 @@
                 firmware_version = #{firmwareVersion},
             </if>
 
-            <if test="usedSpace != null">
+            <if test="usedSpace != 0">
                 used_space = #{usedSpace},
             </if>
 
-            <if test="totalSpace != null">
+            <if test="totalSpace != 0">
                 total_space = #{totalSpace},
             </if>
 
