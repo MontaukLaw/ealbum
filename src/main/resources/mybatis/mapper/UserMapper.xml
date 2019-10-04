@@ -17,7 +17,7 @@
 
     <select id="checkLogin" resultMap="UserResultMap">
         select id, username, icon,region,cell_model,
-        reg_time,email,cell_number,password
+        reg_time,email,cell_number
         from users
         where (email =#{email} and password =#{password} and state = 1)
         or (cell_number =#{cellNumber} and password =#{password} and state = 1)
@@ -25,6 +25,7 @@
 
     <select id="listAll" resultMap="UserResultMap">
         select id, username, icon,region cell_model, reg_time,email,cell_number from users where state = 1
+        order by reg_time desc
     </select>
 
     <insert id="addUser" parameterType="User">
