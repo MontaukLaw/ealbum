@@ -47,4 +47,20 @@ public class DeviceTest {
 
     }
 
+    @Test
+    public void testBinding() {
+        String userID = "81bb89e0-dd02-11e9-a9a4-0a774baf5008";
+        String deviceID = "6f386000-e62f-11e9-a9a4-0a774baf5008";
+        System.out.println(deviceService.bindDeviceToUser(userID, deviceID));
+    }
+
+    @Test
+    public void testGetDeviceByID() {
+        Device device = new Device();
+
+        device.setId("6f386000-e62f-11e9-a9a4-0a774baf5008");
+
+        System.out.println(deviceService.getDeviceByID(device));
+    }
+
 }

@@ -15,4 +15,8 @@ public interface DeviceService {
 
     int updateDevice(Device device);
 
+    int bindDeviceToUser(String userId, String deviceId);
+
+    Device getDeviceByID(Device device);
+
 }

@@ -34,4 +34,14 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.updateDevice(device);
     }
 
+    @Override
+    public int bindDeviceToUser(String userId, String deviceId) {
+        return deviceMapper.bindDeviceToUser(userId, deviceId);
+    }
+
+    @Override
+    public Device getDeviceByID(Device device) {
+        return deviceMapper.getDeviceByID(device);
+    }
+
 }
