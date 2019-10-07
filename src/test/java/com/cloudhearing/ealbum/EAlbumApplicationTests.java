@@ -45,6 +45,7 @@ public class EAlbumApplicationTests {
         user.setCellModel("cellmodel");
         user.setIcon("icon");
         user.setRegion("region");
+        user.setJpushId("jpushxxxxx");
         System.out.println(userService.addUser(user));
     }
 
@@ -67,7 +68,7 @@ public class EAlbumApplicationTests {
         user.setCellModel("cellmodel2");
         user.setIcon("icon2");
         user.setRegion("region2");
-
+        user.setJpushId("jpushx...");
         System.out.println(userService.editUser(user));
 
     }

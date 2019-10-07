@@ -12,6 +12,17 @@ public class TokenTool {
     };
 
     //生成随机32位字符
+    public static String getRandomString(int length) {
+        String result = "";
+        Random r = new Random();
+        for (int i = 0; i < length; i++) {
+            result = result + allChars[r.nextInt(allChars.length)];
+
+        }
+        return result;
+    }
+
+    //生成随机32位字符
     public static String getRandomSessionID() {
         String result = "";
         Random r = new Random();

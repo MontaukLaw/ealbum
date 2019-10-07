@@ -29,8 +29,8 @@ public class DeviceTest {
         device.setModel("model");
         device.setSn("sn12312");
         device.setRegion("somewhere");
+        device.setJpushId("jpush");
         System.out.println(deviceService.addDevice(device));
-
     }
 
     @Test
@@ -43,6 +43,7 @@ public class DeviceTest {
         device.setUsedSpace(399);
         device.setEmail("fsa@fdsf.com");
         device.setId("6f386000-e62f-11e9-a9a4-0a774baf5008");
+        device.setJpushId("jpushxxx");
         System.out.println(deviceService.updateDevice(device));
 
     }

@@ -8,13 +8,21 @@ public class User {
     // 9项
     private String id, username, icon, region;
     private String cellModel, email, password;
-    private String cellNumber;
+    private String cellNumber, jpushId;
     private Date regTime;
 
     private List<Device> devices;
 
     public String getId() {
         return id;
+    }
+
+    public String getJpushId() {
+        return jpushId;
+    }
+
+    public void setJpushId(String jpushId) {
+        this.jpushId = jpushId;
     }
 
     public void setId(String id) {
@@ -103,7 +111,8 @@ public class User {
                 ", cellModel='" + cellModel + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", cellNumber=" + cellNumber +
+                ", cellNumber='" + cellNumber + '\'' +
+                ", jpushId='" + jpushId + '\'' +
                 ", regTime=" + regTime +
                 ", devices=" + devices +
                 '}';

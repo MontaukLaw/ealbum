@@ -6,7 +6,6 @@
         <result column="sn_prefix" property="snPrefix"/>
         <result column="check_code" property="checkCode"/>
         <result column="create_date" property="createDate"/>
-        <result column="binding_state" property="bindingState"/>
         <result column="prefix_quantity" property="prefixQuantity"/>
     </resultMap>
 
@@ -19,22 +18,22 @@
     <!--</select>-->
 
     <select id="listAll" resultMap="InventoryResultMap">
-        select sn, sn_prefix, check_code, create_date, binding_state, prefix_quantity
-        from inventory
+        select sn, sn_prefix, check_code, create_date, prefix_quantity
+        from inventories order by create_date desc
 
     </select>
 
     <select id="checkSN" resultMap="InventoryResultMap">
-        select sn, sn_prefix, check_code, create_date, binding_state, prefix_quantity
-        from inventory
+        select sn, sn_prefix, check_code, create_date, prefix_quantity
+        from inventories
         where sn = #{sn} and check_code = #{checkCode}
     </select>
 
     <insert id="addInventory" parameterType="Inventory">
-        insert into inventory
-        (sn, sn_prefix, check_code, create_date, binding_state, prefix_quantity)
+        insert into inventories
+        (sn, sn_prefix, check_code, create_date, prefix_quantity)
         values
-        (#{sn},#{snPrefix},#{checkCode},now(),#{bindingState},#{prefixQuantity})
+        (#{sn},#{snPrefix},#{checkCode},now(),#{prefixQuantity})
     </insert>
 
     <!--<update id="removeUser">-->

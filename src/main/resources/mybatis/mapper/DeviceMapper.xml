@@ -12,6 +12,7 @@
         <result column="used_space" property="usedSpace"/>
         <result column="total_space" property="totalSpace"/>
         <result column="email" property="email"/>
+        <result column="jpush_id" property="jpushId"/>
         <collection property="owners" columnPrefix="user_"
                     resultMap="com.cloudhearing.ealbum.mapper.UserMapper.UserResultMap"/>
     </resultMap>
@@ -22,9 +23,9 @@
 
     <select id="getDeviceByID" resultMap="DeviceResultMap">
         select device.id,device.activate_time,device.last_online_time,device.region,model,device.sn,
-        device.firmware_version,device.used_space,device.total_space,device.email,
+        device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
         user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
-        user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email user_email
+        user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email user_email,user.jpush_id user_jpush_id
         from devices device
         left join user_device ud
         on ud.device_id = device.id
@@ -37,10 +38,10 @@
 
     <insert id="addDevice" parameterType="Device">
         insert into devices
-        (id, activate_time, last_online_time,region,model,sn,firmware_version
+        (id, activate_time, last_online_time,region,model,sn,firmware_version,jpush_id
         )
         values
-        (uuid(),now(),now(),#{region},#{model},#{sn},#{firmwareVersion})
+        (uuid(),now(),now(),#{region},#{model},#{sn},#{firmwareVersion},#{jpushId})
     </insert>
 
     <update id="updateDevice">
@@ -68,6 +69,10 @@
 
             <if test="email != null">
                 email = #{email},
+            </if>
+
+            <if test="jpushId != null">
+                jpush_id = #{jpushId},
             </if>
 
         </set>

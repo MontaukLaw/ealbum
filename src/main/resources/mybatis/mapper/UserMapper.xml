@@ -11,6 +11,7 @@
         <result column="email" property="email"/>
         <result column="cell_number" property="cellNumber"/>
         <result column="password" property="password"/>
+        <result column="jpush_id" property="jpushId"/>
         <collection property="devices" columnPrefix="device_"
                     resultMap="com.cloudhearing.ealbum.mapper.DeviceMapper.DeviceResultMap"/>
     </resultMap>
@@ -24,15 +25,17 @@
     </select>
 
     <select id="listAll" resultMap="UserResultMap">
-        select id, username, icon,region cell_model, reg_time,email,cell_number from users where state = 1
+        select id, username, icon,region cell_model, reg_time,email,cell_number,jpush_id
+        from users
+        where state = 1
         order by reg_time desc
     </select>
 
     <insert id="addUser" parameterType="User">
         insert into users
-        (id, username, icon, region, cell_model, reg_time, email, cell_number,password )
+        (id, username, icon, region, cell_model, reg_time, email, cell_number,password,jpush_id )
         values
-        (uuid(),#{username},#{icon},#{region},#{cellModel},now(),#{email},#{cellNumber},#{password})
+        (uuid(),#{username},#{icon},#{region},#{cellModel},now(),#{email},#{cellNumber},#{password},#{jpushId})
     </insert>
 
     <update id="removeUser">
@@ -75,9 +78,13 @@
             <if test="password != null">
                 password = #{password},
             </if>
+
+            <if test="jpushId != null">
+                jpush_id = #{jpushId},
+            </if>
+
         </set>
         where id=#{id}
     </update>
-
 
 </mapper>

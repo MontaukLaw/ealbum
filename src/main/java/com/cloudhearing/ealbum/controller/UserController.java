@@ -5,7 +5,6 @@ import com.cloudhearing.ealbum.entity.User;
 import com.cloudhearing.ealbum.service.UserService;
 import com.cloudhearing.ealbum.utils.JsonMsg;
 import com.cloudhearing.ealbum.utils.PasswordGenTool;
-import org.apache.shiro.crypto.hash.SimpleHash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

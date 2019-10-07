@@ -1,11 +1,10 @@
 package com.cloudhearing.ealbum;
 
 
-import com.cloudhearing.ealbum.entity.Device;
 import com.cloudhearing.ealbum.entity.SysUser;
-import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.service.SysUserService;
 import com.cloudhearing.ealbum.utils.PasswordGenTool;
+import com.cloudhearing.ealbum.utils.StringTool;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,12 +34,33 @@ public class SysUserTest {
     }
 
     @Test
-    public void testGetSalt(){
+    public void testGetSalt() {
         SysUser sysUser = new SysUser();
         sysUser.setUsername("operator");
 
         System.out.println(SysUserService.getSaltByUsername(sysUser));
 
+    }
+
+    @Test
+    public void testStr() {
+        //StringTool.getSNTail(,);
+        int inputIndex = 221;
+        int inputTotal = 5500;
+        String totalStr = String.valueOf(inputTotal);
+        int length = totalStr.length();
+        System.out.println(length);
+        String indexStr = String.valueOf(inputIndex);
+        int strLength = indexStr.length();
+        String temp = "";
+        if (strLength < length) {
+            int zeroPatch = (length - strLength);
+            for (int i = 0; i < zeroPatch; i++) {
+                temp = temp + "0";
+            }
+        }
+        temp = temp + indexStr;
+        System.out.println(temp);
     }
 
 
