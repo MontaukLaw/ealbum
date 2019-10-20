@@ -17,8 +17,15 @@
         <typeAlias alias="User" type="com.cloudhearing.ealbum.entity.User"/>
         <typeAlias alias="Device" type="com.cloudhearing.ealbum.entity.Device"/>
         <typeAlias alias="Inventory" type="com.cloudhearing.ealbum.entity.Inventory"/>
+        <typeAlias alias="ResourceAddress" type="com.cloudhearing.ealbum.entity.ResourceAddress"/>
 
     </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.cloudhearing.ealbum.plugin.PageInterceptor">
+            <property name="dialect" value="com.cloudhearing.ealbum.plugin.MySqlDialect"/>
+        </plugin>
+    </plugins>
 
 
 </configuration>

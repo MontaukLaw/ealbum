@@ -14,4 +14,6 @@ public interface InventoryService {
     Inventory checkSN(Inventory inventory);
 
     List<Inventory>listAll();
+
+    int updateCheckCodeBySN(Inventory inventory);
 }

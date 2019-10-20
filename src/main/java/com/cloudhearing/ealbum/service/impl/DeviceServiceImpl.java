@@ -44,4 +44,9 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.getDeviceByID(device);
     }
 
+    @Override
+    public Device getDeviceBySN(Device device) {
+        return deviceMapper.getDeviceBySN(device);
+    }
+
 }

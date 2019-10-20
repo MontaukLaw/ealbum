@@ -20,11 +20,16 @@ public class SysUserTest {
     SysUserService SysUserService;
 
     @Test
+    public void contextLoads() {
+    }
+
+
+    //@Test
     public void testGenPasswd() {
         System.out.println(PasswordGenTool.genPasswordWithUsernameAndSalt("operator", "bbaf1937-e6b6-11e9-a9a4-0a774baf5008", "1qaz@WSX0okm"));
     }
 
-    @Test
+    //@Test
     public void testCheckLogin() {
 
         SysUser sysUser = new SysUser();
@@ -33,7 +38,7 @@ public class SysUserTest {
         System.out.println(SysUserService.checkLogin(sysUser));
     }
 
-    @Test
+    //@Test
     public void testGetSalt() {
         SysUser sysUser = new SysUser();
         sysUser.setUsername("operator");
@@ -42,7 +47,7 @@ public class SysUserTest {
 
     }
 
-    @Test
+    //@Test
     public void testStr() {
         //StringTool.getSNTail(,);
         int inputIndex = 221;

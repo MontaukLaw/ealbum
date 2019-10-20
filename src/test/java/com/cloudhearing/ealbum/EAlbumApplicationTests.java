@@ -21,12 +21,12 @@ public class EAlbumApplicationTests {
     }
 
 
-    @Test
+    //@Test
     public void listAllTester() {
         System.out.println(userService.listAll());
     }
 
-    @Test
+    //@Test
     public void checkLoginTester() {
         User user = new User();
         user.setEmail("tester2@com");
@@ -35,7 +35,7 @@ public class EAlbumApplicationTests {
 
     }
 
-    @Test
+    //@Test
     public void addUserTest() {
         User user = new User();
         user.setPassword("xxx");
@@ -49,7 +49,7 @@ public class EAlbumApplicationTests {
         System.out.println(userService.addUser(user));
     }
 
-    @Test
+    //@Test
     public void removeUser(){
         User user=new User();
         user.setId("1647d6a4-dd1e-11e9-a9a4-0a774baf5008");
@@ -68,7 +68,7 @@ public class EAlbumApplicationTests {
         user.setCellModel("cellmodel2");
         user.setIcon("icon2");
         user.setRegion("region2");
-        user.setJpushId("jpushx...");
+        user.setJpushId("jpushxabcd");
         System.out.println(userService.editUser(user));
 
     }

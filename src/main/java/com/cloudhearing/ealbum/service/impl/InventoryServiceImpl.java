@@ -28,9 +28,13 @@ public class InventoryServiceImpl implements InventoryService {
     }
 
     @Override
-
     public List<Inventory> listAll() {
         return inventoryMapper.listAll();
+    }
+
+    @Override
+    public     int updateCheckCodeBySN(Inventory inventory){
+        return inventoryMapper.updateCheckCodeBySN(inventory);
     }
 
 }

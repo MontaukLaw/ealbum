@@ -25,13 +25,29 @@
         select device.id,device.activate_time,device.last_online_time,device.region,model,device.sn,
         device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
         user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
-        user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email user_email,user.jpush_id user_jpush_id
+        user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email
+        user_email,user.jpush_id user_jpush_id
         from devices device
         left join user_device ud
         on ud.device_id = device.id
         left join users user
         on ud.user_id = user.id
         where device.id =#{id}
+
+    </select>
+
+    <select id="getDeviceBySN" resultMap="DeviceResultMap">
+        select device.id,device.activate_time,device.last_online_time,device.region,model,device.sn,
+        device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
+        user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
+        user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email
+        user_email,user.jpush_id user_jpush_id
+        from devices device
+        left join user_device ud
+        on ud.device_id = device.id
+        left join users user
+        on ud.user_id = user.id
+        where device.sn =#{sn}
 
     </select>
 
@@ -85,5 +101,6 @@
         values
         (uuid(),#{userId},#{deviceId},now())
     </insert>
+
 
 </mapper>

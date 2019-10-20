@@ -13,6 +13,8 @@ public interface InventoryMapper {
 
     Inventory checkSN(Inventory inventory);
 
-    List<Inventory>listAll();
+    List<Inventory> listAll();
+
+    int updateCheckCodeBySN(Inventory inventory);
 
 }

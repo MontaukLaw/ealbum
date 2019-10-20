@@ -24,6 +24,15 @@ public class DeviceController extends BaseController {
         return jsonMsg;
     }
 
+    @GetMapping("/devices/sn/{sn}")
+    public JsonMsg getDeviceBySN(@PathVariable("sn") String sn) {
+        Device device = new Device();
+        device.setSn(sn);
+
+        JsonMsg jsonMsg = feedbackJson(deviceService.getDeviceByID(device));
+
+        return jsonMsg;
+    }
 
     @GetMapping("/devices/{id}")
     public JsonMsg getDeviceByID(@PathVariable("id") String deviceId) {

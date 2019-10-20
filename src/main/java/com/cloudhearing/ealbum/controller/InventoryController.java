@@ -38,10 +38,15 @@ public class InventoryController extends BaseController {
     }
 
     @PostMapping("/inventories/checkSN")
-    public JsonMsg checkSN(Inventory inventory){
-
+    public JsonMsg checkSN(Inventory inventory) {
         return feedbackJson(inventoryService.checkSN(inventory));
     }
 
+
+    //这个方法用于设备端更新checkCode之后, 给app扫描验证使用
+    @PostMapping("/inventories/updateCheckCode")
+    public JsonMsg updateCheckCodeBySN(Inventory inventory) {
+        return feedbackJson(inventoryService.updateCheckCodeBySN(inventory));
+    }
 
 }

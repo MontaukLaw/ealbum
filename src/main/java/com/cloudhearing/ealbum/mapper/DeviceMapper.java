@@ -19,4 +19,6 @@ public interface DeviceMapper {
     int bindDeviceToUser(@Param("userId") String userId, @Param("deviceId") String deviceId);
 
     Device getDeviceByID(Device device);
+
+    Device getDeviceBySN(Device device);
 }

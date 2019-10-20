@@ -19,4 +19,6 @@ public interface DeviceService {
 
     Device getDeviceByID(Device device);
 
+    Device getDeviceBySN(Device device);
+
 }

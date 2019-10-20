@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.cloudhearing.ealbum.mapper.InventoryMapper">
-    <resultMap id="InventoryResultMap" type="Inventory">
-        <id column="sn" property="sn"/>
-        <result column="sn_prefix" property="snPrefix"/>
-        <result column="check_code" property="checkCode"/>
-        <result column="create_date" property="createDate"/>
-        <result column="prefix_quantity" property="prefixQuantity"/>
+<mapper namespace="com.cloudhearing.ealbum.mapper.ResourceAddressMapper">
+    <resultMap id="ResourceAddressResultMap" type="ResourceAddress">
+        <id column="id" property="id"/>
+        <result column="resource_address" property="resourceAddress"/>
+        <result column="device_id" property="deviceId"/>
+        <result column="space" property="space"/>
+        <result column="storage_id" property="storageId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="state" property="state"/>
+        <result column="type" property="type"/>
     </resultMap>
 
     <!--<select id="checkLogin" resultMap="UserResultMap">-->
     <!--select id, username, icon,region,cell_model,-->
-    <!--reg_time,email,cell_number,password-->
+    <!--reg_time,email,cell_number-->
     <!--from users-->
     <!--where (email =#{email} and password =#{password} and state = 1)-->
     <!--or (cell_number =#{cellNumber} and password =#{password} and state = 1)-->
     <!--</select>-->
 
-    <select id="listAll" resultMap="InventoryResultMap">
-        select sn, sn_prefix, check_code, create_date, prefix_quantity
-        from inventories order by create_date desc
-
+    <select id="listAll" resultMap="ResourceAddressResultMap">
+        select *
+        from resources
+        where state = 1
+        order by create_time desc
     </select>
 
-    <select id="checkSN" resultMap="InventoryResultMap">
-        select sn, sn_prefix, check_code, create_date, prefix_quantity
-        from inventories
-        where sn = #{sn} and check_code = #{checkCode}
+
+    <select id="findAllByDeviceID" resultMap="ResourceAddressResultMap" parameterType="String">
+        select *
+        from resources
+        where state = 1 and device_id=#{deviceId}
+        order by create_time desc
     </select>
 
-    <insert id="addInventory" parameterType="Inventory">
-        insert into inventories
-        (sn, sn_prefix, check_code, create_date, prefix_quantity)
+    <insert id="addResourceAddress" parameterType="ResourceAddress">
+        insert into resources
+        (id, resource_address, device_id, space, storage_id, create_time, state, type )
         values
-        (#{sn},#{snPrefix},#{checkCode},now(),#{prefixQuantity})
+        (uuid(),#{resourceAddress},#{deviceId},#{space},#{storageId},now(),1,#{type})
     </insert>
-
-    <update id="updateCheckCodeBySN">
-        update inventories
-        set check_code = #{checkCode}
-        where sn = #{sn}
-    </update>
-
 
     <!--<update id="removeUser">-->
     <!--update users-->
@@ -83,9 +82,13 @@
     <!--<if test="password != null">-->
     <!--password = #{password},-->
     <!--</if>-->
+
+    <!--<if test="jpushId != null">-->
+    <!--jpush_id = #{jpushId},-->
+    <!--</if>-->
+
     <!--</set>-->
     <!--where id=#{id}-->
     <!--</update>-->
-
 
 </mapper>

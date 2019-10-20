@@ -19,6 +19,11 @@ public class InventoryTest {
     InventoryService integerService;
 
     @Test
+    public void contextLoads() {
+    }
+
+
+    //@Test
     public void addInventory() {
 
         Inventory inventory = new Inventory();
@@ -31,19 +36,27 @@ public class InventoryTest {
         System.out.println(integerService.addInventory(inventory));
     }
 
-    @Test
-    public void listAllTest(){
+    //@Test
+    public void listAllTest() {
 
         System.out.println(integerService.listAll());
     }
 
-    @Test
-    public void testCheckSN(){
-        Inventory inventory=new Inventory();
+    //@Test
+    public void testCheckSN() {
+        Inventory inventory = new Inventory();
         inventory.setCheckCode("xxx");
         inventory.setSn("sn1111");
         System.out.println(integerService.checkSN(inventory));
 
+    }
+
+    @Test
+    public void testUpdateCheckCode() {
+        Inventory inventory = new Inventory();
+        inventory.setCheckCode("changed");
+        inventory.setSn("sn1111");
+        System.out.println(integerService.updateCheckCodeBySN(inventory));
     }
 
 }
