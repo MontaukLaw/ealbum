@@ -28,10 +28,14 @@ public class ResourceAddressServiceImpl implements ResourceAddressService {
     }
 
     @Override
-    public Page<ResourceAddress> findAllByDeviceID(int pageNo, int pageSize, String deviceID){
+    public Page<ResourceAddress> findAllByDeviceID(int pageNo, int pageSize, String deviceID) {
         PageHelper.startPage(pageNo, pageSize);
-        return resourceAddressMapper.findAllByDeviceID(pageNo, pageSize,deviceID);
+        return resourceAddressMapper.findAllByDeviceID(pageNo, pageSize, deviceID);
     }
 
+    @Override
+    public int removeResourceAddress(ResourceAddress resourceAddress) {
+        return resourceAddressMapper.removeResourceAddress(resourceAddress);
+    }
 
 }

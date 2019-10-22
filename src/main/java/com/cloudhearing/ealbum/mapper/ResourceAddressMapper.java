@@ -17,4 +17,6 @@ public interface ResourceAddressMapper {
     //List<ResourceAddress> findAllByDeviceID(ResourceAddress resourceAddress);
 
     Page<ResourceAddress> findAllByDeviceID(int pageNo, int pageSize, @Param("deviceId") String deviceID);
+
+    int removeResourceAddress(ResourceAddress resourceAddress);
 }

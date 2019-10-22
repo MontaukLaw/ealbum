@@ -37,8 +37,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int editUser(User user){
+    public int editUser(User user) {
         return userMapper.editUser(user);
+    }
+
+    @Override
+    public User getUserDetail(User user) {
+        return userMapper.getUserDetail(user);
     }
 
 }

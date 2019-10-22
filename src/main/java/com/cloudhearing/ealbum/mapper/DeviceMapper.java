@@ -21,4 +21,5 @@ public interface DeviceMapper {
     Device getDeviceByID(Device device);
 
     Device getDeviceBySN(Device device);
+
 }

@@ -2,6 +2,7 @@ package com.cloudhearing.ealbum;
 
 
 import com.cloudhearing.ealbum.entity.Device;
+import com.cloudhearing.ealbum.entity.User;
 import com.cloudhearing.ealbum.service.DeviceService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -76,5 +77,6 @@ public class DeviceTest {
         device.setSn("3B5NCG2AWK");
         System.out.println(deviceService.getDeviceBySN(device));
     }
+
 
 }

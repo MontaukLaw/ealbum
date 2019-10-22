@@ -16,6 +16,21 @@
                     resultMap="com.cloudhearing.ealbum.mapper.DeviceMapper.DeviceResultMap"/>
     </resultMap>
 
+    <select id="getUserDetail" resultMap="UserResultMap">
+        select user.id, user.username, user.icon, user.region, user.cell_model, user.reg_time,
+        user.email, user.cell_number, user.jpush_id,
+        device.id device_id,device.activate_time device_activate_time,device.last_online_time
+        device_last_online_time,device.region device_region,device.model device_model,device.sn device_sn,
+        device.firmware_version device_firmware_version,device.used_space
+        device_used_space,device.total_space device_total_space,device.email device_email,device.jpush_id device_jpush_id
+        from users user
+        left join user_device ud
+        on user.id = ud.user_id
+        left join devices device
+        on device.id = ud.device_id
+        where user.id = #{id}
+    </select>
+
     <select id="checkLogin" resultMap="UserResultMap">
         select id, username, icon,region,cell_model,
         reg_time,email,cell_number

@@ -27,7 +27,6 @@
         order by create_time desc
     </select>
 
-
     <select id="findAllByDeviceID" resultMap="ResourceAddressResultMap" parameterType="String">
         select *
         from resources
@@ -42,11 +41,11 @@
         (uuid(),#{resourceAddress},#{deviceId},#{space},#{storageId},now(),1,#{type})
     </insert>
 
-    <!--<update id="removeUser">-->
-    <!--update users-->
-    <!--set state=0-->
-    <!--where id = #{id}-->
-    <!--</update>-->
+    <update id="removeResourceAddress">
+        update resources
+        set state=0
+        where id = #{id}
+    </update>
 
     <!--<update id="editUser">-->
     <!--update users-->

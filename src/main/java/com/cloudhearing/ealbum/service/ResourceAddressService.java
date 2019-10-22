@@ -18,4 +18,6 @@ public interface ResourceAddressService {
 
     Page<ResourceAddress> findAllByDeviceID(int pageNo, int pageSize, String deviceID);
 
+    int removeResourceAddress(ResourceAddress resourceAddress);
+
 }

@@ -18,4 +18,6 @@ public interface UserMapper {
 
     int editUser(User user);
 
+    User getUserDetail(User user);
+
 }

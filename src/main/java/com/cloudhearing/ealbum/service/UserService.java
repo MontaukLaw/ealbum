@@ -17,4 +17,6 @@ public interface UserService {
     int removeUser(User user);
 
     int editUser(User user);
+
+    User getUserDetail(User user);
 }

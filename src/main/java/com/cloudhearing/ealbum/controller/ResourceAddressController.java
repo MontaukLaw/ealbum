@@ -4,10 +4,7 @@ import com.cloudhearing.ealbum.entity.ResourceAddress;
 import com.cloudhearing.ealbum.service.ResourceAddressService;
 import com.cloudhearing.ealbum.utils.JsonMsg;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -21,5 +18,14 @@ public class ResourceAddressController extends BaseController {
 
     }
 
+    @RequestMapping(value = "/resourceAddresses/", method = RequestMethod.DELETE)
+    public JsonMsg removeResourceAddress(ResourceAddress resourceAddress) {
+        return feedbackJson(resourceAddressService.removeResourceAddress(resourceAddress));
+    }
+
+    @PostMapping("/resourceAddresses/")
+    public JsonMsg addResourceAddress(ResourceAddress resourceAddress) {
+        return feedbackJson(resourceAddressService.addResourceAddress(resourceAddress));
+    }
 
 }

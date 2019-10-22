@@ -24,12 +24,12 @@ public class ResourceAddressTest {
     }
 
 
-    @Test
+    //@Test
     public void listAllTest() {
         System.out.println(resourceService.listAll());
     }
 
-    @Test
+    //@Test
     public void addResourceAddressTest() {
         ResourceAddress resourceAddress = new ResourceAddress();
         resourceAddress.setStorageId("ALI");
@@ -40,8 +40,23 @@ public class ResourceAddressTest {
         System.out.println(resourceService.addResourceAddress(resourceAddress));
     }
 
-    @Test
+    //@Test
     public void testFindByDeviceID() {
         System.out.println(resourceService.findAllByDeviceID(1, 1, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+    }
+
+    //@Test
+    public void testRemoveResourceAddress() {
+        ResourceAddress resourceAddress = new ResourceAddress();
+
+        resourceAddress.setId("7723272c-f2d7-11e9-acfd-00163e023e32");
+
+        System.out.println(resourceService.findAllByDeviceID(1, 5, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+
+        System.out.println(resourceService.removeResourceAddress(resourceAddress));
+
+        System.out.println(resourceService.findAllByDeviceID(1, 5, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+
+
     }
 }

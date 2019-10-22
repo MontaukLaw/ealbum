@@ -44,7 +44,7 @@ public class InventoryController extends BaseController {
 
 
     //这个方法用于设备端更新checkCode之后, 给app扫描验证使用
-    @PostMapping("/inventories/updateCheckCode")
+        @PostMapping("/inventories/updateCheckCode")
     public JsonMsg updateCheckCodeBySN(Inventory inventory) {
         return feedbackJson(inventoryService.updateCheckCodeBySN(inventory));
     }

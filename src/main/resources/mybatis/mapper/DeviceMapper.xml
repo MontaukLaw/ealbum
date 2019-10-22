@@ -36,6 +36,7 @@
 
     </select>
 
+
     <select id="getDeviceBySN" resultMap="DeviceResultMap">
         select device.id,device.activate_time,device.last_online_time,device.region,model,device.sn,
         device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,

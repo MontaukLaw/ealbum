@@ -50,16 +50,16 @@ public class EAlbumApplicationTests {
     }
 
     //@Test
-    public void removeUser(){
-        User user=new User();
+    public void removeUser() {
+        User user = new User();
         user.setId("1647d6a4-dd1e-11e9-a9a4-0a774baf5008");
         System.out.println(userService.removeUser(user));
 
     }
 
-    @Test
-    public void editUser(){
-        User user=new User();
+    //@Test
+    public void editUser() {
+        User user = new User();
         user.setId("1647d6a4-dd1e-11e9-a9a4-0a774baf5008");
         user.setPassword("xxx2");
         user.setEmail("someone@somedomain.com2");
@@ -73,4 +73,11 @@ public class EAlbumApplicationTests {
 
     }
 
+    //@Test
+    public void getUserDetail() {
+        User user = new User();
+        user.setId("7b335d6e-ea3c-11e9-acfd-00163e023e32");
+        System.out.println(userService.getUserDetail(user));
+
+    }
 }

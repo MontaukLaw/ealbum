@@ -62,4 +62,12 @@ public class UserController extends BaseController {
         return jsonMsg;
     }
 
+    @GetMapping("/user/{id}/")
+    public JsonMsg getDevicesByUserId(@PathVariable("id") String id) {
+        User user = new User();
+        user.setId(id);
+        return feedbackJson(userService.getUserDetail(user));
+    }
+
+
 }

@@ -51,7 +51,7 @@ public class InventoryTest {
 
     }
 
-    @Test
+    //@Test
     public void testUpdateCheckCode() {
         Inventory inventory = new Inventory();
         inventory.setCheckCode("changed");

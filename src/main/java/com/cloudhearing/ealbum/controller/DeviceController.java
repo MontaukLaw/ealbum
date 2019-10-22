@@ -1,6 +1,7 @@
 package com.cloudhearing.ealbum.controller;
 
 import com.cloudhearing.ealbum.entity.Device;
+import com.cloudhearing.ealbum.entity.User;
 import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.utils.JsonMsg;
 import org.apache.ibatis.annotations.Param;
@@ -69,6 +70,5 @@ public class DeviceController extends BaseController {
         return jsonMsg;
 
     }
-
 
 }
