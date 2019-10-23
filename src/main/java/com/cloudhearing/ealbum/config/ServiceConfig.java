@@ -6,40 +6,64 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ServiceConfig {
 
-    @Value("${jpush.appkey}")
+    @Value("${jpush.app.appkey}")
     private String appKey = "";
-//
-//    @Value("${jpush.device.appkey}")
-//    private String deviceAppKey = "";
-//
-//    @Value("${jpush.device.secret}")
-//    private String deviceDeviceAppSecret = "";
 
-    @Value("${jpush.secret}")
-    private String secret = "";
+    @Value("${jpush.app.secret}")
+    private String appSecret = "";
+
+    @Value("${jpush.device.appkey}")
+    private String deviceAppKey = "";
+
+    @Value("${jpush.device.secret}")
+    private String deviceSecret = "";
 
     @Value("${jpush.api.address}")
     private String apiAddress = "";
 
     @Value("${jpush.resultapi.address}")
     private String resultApiAddress = "";
-//
-//    public String getDeviceAppKey() {
-//        return deviceAppKey;
-//    }
-//
-//    public String getDeviceDeviceAppSecret() {
-//        return deviceDeviceAppSecret;
-//    }
+
+    public String getDeviceAppKey() {
+        return deviceAppKey;
+    }
+
+    public String getDeviceSecret() {
+        return deviceSecret;
+    }
+
+    public void setDeviceSecret(String deviceSecret) {
+        this.deviceSecret = deviceSecret;
+    }
 
     public String getAppKey() {
 
         return appKey;
     }
 
-    public String getSecret() {
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
+    }
 
-        return secret;
+    public String getAppSecret() {
+        return appSecret;
+    }
+
+    public void setAppSecret(String appSecret) {
+        this.appSecret = appSecret;
+    }
+
+    public void setDeviceAppKey(String deviceAppKey) {
+        this.deviceAppKey = deviceAppKey;
+    }
+
+
+    public void setApiAddress(String apiAddress) {
+        this.apiAddress = apiAddress;
+    }
+
+    public void setResultApiAddress(String resultApiAddress) {
+        this.resultApiAddress = resultApiAddress;
     }
 
     public String getApiAddress() {
@@ -51,11 +75,5 @@ public class ServiceConfig {
         return resultApiAddress;
     }
 
-
-    //jpush.appkey: 80a9e1726ae1a17365909b69
-    //jpush.secret: fd1c9e8b5bbb3e8f90003871
-
-    //jpush.api.address: "https://bjapi.push.jiguang.cn/v3/push"
-    //jpush.resultapi.address: "https://report.jpush.cn/v3/status/message"
 
 }

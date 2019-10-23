@@ -19,11 +19,21 @@ public class PushController extends BaseController {
     @Autowired
     public ServiceConfig serviceConfig;
 
-    //@PostMapping("/pushmsg/{targetRId}")
-    //public JsonMsg jpush(@PathVariable("targetRId") String targetRId, @RequestBody JSONObject obj) {
+    @PostMapping("/pushMsgToApp")
+    public JsonMsg pushMsgToApp(@RequestBody JSONObject obj) {
+        return jpush(obj, serviceConfig.getAppKey(), serviceConfig.getAppSecret());
 
-    @PostMapping("/pushMsg")
-    public JsonMsg jpush(@RequestBody JSONObject obj) {
+    }
+
+    @PostMapping("/pushMsgToDevice")
+    public JsonMsg pushMsgToDevice(@RequestBody JSONObject obj) {
+        return jpush(obj, serviceConfig.getDeviceAppKey(), serviceConfig.getDeviceSecret());
+
+    }
+
+
+    //@PostMapping("/pushMsg")
+    public JsonMsg jpush(@RequestBody JSONObject obj, String key, String secrete) {
         JsonMsg jsonMsg = new JsonMsg();
         //先解包跟检查错误
         if (JSONTool.checkInputError(obj)) {
@@ -33,7 +43,7 @@ public class PushController extends BaseController {
         }
 
         //根据配置文件的App配置信息, 访问对应的极光推送接口.
-        ApiAccess apiAccess = new ApiAccess(serviceConfig.getApiAddress(), serviceConfig.getAppKey(), serviceConfig.getSecret());
+        ApiAccess apiAccess = new ApiAccess(serviceConfig.getApiAddress(), key, secrete);
 
         PushJsonMsgFactory pushJsonMsgFactory = new PushJsonMsgFactory(obj);
 

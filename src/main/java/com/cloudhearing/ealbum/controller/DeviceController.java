@@ -30,7 +30,7 @@ public class DeviceController extends BaseController {
         Device device = new Device();
         device.setSn(sn);
 
-        JsonMsg jsonMsg = feedbackJson(deviceService.getDeviceByID(device));
+        JsonMsg jsonMsg = feedbackJson(deviceService.getDeviceBySN(device));
 
         return jsonMsg;
     }
