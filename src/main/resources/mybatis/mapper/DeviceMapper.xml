@@ -2,12 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.cloudhearing.ealbum.mapper.DeviceMapper">
     <resultMap id="DeviceResultMap" type="Device">
-        <id column="id" property="id"/>
+        <id column="sn" property="sn"/>
         <result column="activate_time" property="activateTime"/>
         <result column="last_online_time" property="lastOnlineTime"/>
         <result column="region" property="region"/>
         <result column="model" property="model"/>
-        <result column="sn" property="sn"/>
         <result column="firmware_version" property="firmwareVersion"/>
         <result column="used_space" property="usedSpace"/>
         <result column="total_space" property="totalSpace"/>
@@ -21,30 +20,30 @@
         select* from devices
     </select>
 
-    <select id="getDeviceByID" resultMap="DeviceResultMap">
-        select device.id,device.activate_time,device.last_online_time,device.region,model,device.sn,
-        device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
-        user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
-        user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email
-        user_email,user.jpush_id user_jpush_id
-        from devices device
-        left join user_device ud
-        on ud.device_id = device.id
-        left join users user
-        on ud.user_id = user.id
-        where device.id =#{id}
+    <!--<select id="getDeviceByID" resultMap="DeviceResultMap">-->
+    <!--select device.activate_time,device.last_online_time,device.region,model,device.sn,-->
+    <!--device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,-->
+    <!--user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,-->
+    <!--user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email-->
+    <!--user_email,user.jpush_id user_jpush_id-->
+    <!--from devices device-->
+    <!--left join user_device ud-->
+    <!--on ud.device_id = device.id-->
+    <!--left join users user-->
+    <!--on ud.user_id = user.id-->
+    <!--where device.id =#{id}-->
 
-    </select>
+    <!--</select>-->
 
     <select id="getDeviceBySN" resultMap="DeviceResultMap">
-        select device.id,device.activate_time,device.last_online_time,device.region,model,device.sn,
+        select device.activate_time,device.last_online_time,device.region,model,device.sn,
         device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
         user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
         user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email
         user_email,user.jpush_id user_jpush_id
         from devices device
         left join user_device ud
-        on ud.device_id = device.id
+        on ud.device_sn = device.sn
         left join users user
         on ud.user_id = user.id
         where device.sn =#{sn}
@@ -54,10 +53,10 @@
 
     <insert id="addDevice" parameterType="Device">
         insert into devices
-        (id, activate_time, last_online_time,region,model,sn,firmware_version,jpush_id
+        (activate_time, last_online_time,region,model,sn,firmware_version,jpush_id
         )
         values
-        (uuid(),now(),now(),#{region},#{model},#{sn},#{firmwareVersion},#{jpushId})
+        (now(),now(),#{region},#{model},#{sn},#{firmwareVersion},#{jpushId})
     </insert>
 
     <update id="updateDevice">
@@ -92,15 +91,20 @@
             </if>
 
         </set>
-        where id=#{id}
+        where sn=#{sn}
     </update>
 
     <insert id="bindDeviceToUser" parameterType="String">
         insert into user_device
-        (id, user_id, device_id,bind_time)
+        (id, user_id, device_sn,bind_time)
         values
-        (uuid(),#{userId},#{deviceId},now())
+        (uuid(),#{userId},#{sn},now())
     </insert>
 
+    <delete id="removeBinding" parameterType="String">
+
+        delete from user_device where user_id=#{userId} and device_sn =#{sn}
+
+    </delete>
 
 </mapper>

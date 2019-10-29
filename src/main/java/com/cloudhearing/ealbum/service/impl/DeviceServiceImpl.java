@@ -35,18 +35,22 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
-    public int bindDeviceToUser(String userId, String deviceId) {
-        return deviceMapper.bindDeviceToUser(userId, deviceId);
+    public int bindDeviceToUser(String userId, String deviceSN) {
+        return deviceMapper.bindDeviceToUser(userId, deviceSN);
     }
 
-    @Override
-    public Device getDeviceByID(Device device) {
-        return deviceMapper.getDeviceByID(device);
-    }
+//    @Override
+//    public Device getDeviceByID(Device device) {
+//        return deviceMapper.getDeviceByID(device);
+//    }
 
     @Override
     public Device getDeviceBySN(Device device) {
         return deviceMapper.getDeviceBySN(device);
     }
 
+    @Override
+    public int removeBinding(String userId, String deviceSN) {
+        return deviceMapper.removeBinding(userId, deviceSN);
+    }
 }

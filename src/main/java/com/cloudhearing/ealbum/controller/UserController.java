@@ -8,6 +8,8 @@ import com.cloudhearing.ealbum.utils.PasswordGenTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api")
 public class UserController extends BaseController {
@@ -32,7 +34,17 @@ public class UserController extends BaseController {
     @PostMapping("/users/")
     public JsonMsg addUser(User user) {
         User u = encryptPassword(user);
-        JsonMsg jsonMsg = feedbackJson(userService.addUser(u));
+        String uuid = UUID.randomUUID().toString();
+        u.setId(uuid);
+        JsonMsg jsonMsg = new JsonMsg();
+        int result = userService.addUser(u);
+        if (result > 0) {
+            jsonMsg = feedbackJson(uuid);
+        } else {
+            jsonMsg.setSuccess(false);
+            jsonMsg.setMsg("ERROR");
+        }
+
         return jsonMsg;
     }
 

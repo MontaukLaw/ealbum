@@ -4,12 +4,16 @@
     <resultMap id="ResourceAddressResultMap" type="ResourceAddress">
         <id column="id" property="id"/>
         <result column="resource_address" property="resourceAddress"/>
-        <result column="device_id" property="deviceId"/>
         <result column="space" property="space"/>
         <result column="storage_id" property="storageId"/>
         <result column="create_time" property="createTime"/>
         <result column="state" property="state"/>
         <result column="type" property="type"/>
+        <result column="preview_pic" property="previewPic"/>
+        <association property="uploader" resultMap="com.cloudhearing.ealbum.mapper.UserMapper.UserResultMap"
+                     columnPrefix="user_"/>
+        <association property="device" resultMap="com.cloudhearing.ealbum.mapper.DeviceMapper.DeviceResultMap"
+                     columnPrefix="device_"/>
     </resultMap>
 
     <!--<select id="checkLogin" resultMap="UserResultMap">-->
@@ -21,24 +25,45 @@
     <!--</select>-->
 
     <select id="listAll" resultMap="ResourceAddressResultMap">
-        select *
-        from resources
-        where state = 1
-        order by create_time desc
+        select resource.id,
+        resource.resource_address,resource.space,resource.storage_id,
+        resource.create_time,resource.state,resource.type,resource.preview_pic,
+        resource.device_sn, resource.uploader_id user_id, user.username user_username, user.jpush_id user_jpush_id,
+        device.jpush_id device_jpush_id
+        from resources resource
+        left join devices device
+        on resource.device_sn = device.sn
+        left join users user
+        on resource.uploader_id = user.id
+        where resource.state = 1
+        order by resource.create_time desc
+        <!--select *-->
+        <!--from resources-->
+        <!--where state = 1-->
+        <!--order by create_time desc-->
     </select>
 
-    <select id="findAllByDeviceID" resultMap="ResourceAddressResultMap" parameterType="String">
-        select *
-        from resources
-        where state = 1 and device_id=#{deviceId}
-        order by create_time desc
+    <select id="findAllByDeviceSN" resultMap="ResourceAddressResultMap" parameterType="String">
+        <!--select * from resources where state=1 and device_sn=#{deviceSN} order by create_time desc-->
+        select resource.id,
+        resource.resource_address,resource.space,resource.storage_id,
+        resource.create_time,resource.state,resource.type,resource.preview_pic,
+        resource.device_sn, resource.uploader_id user_id, user.username user_username, user.jpush_id user_jpush_id,
+        device.jpush_id device_jpush_id
+        from resources resource
+        left join devices device
+        on resource.device_sn = device.sn
+        left join users user
+        on resource.uploader_id = user.id
+        where resource.state = 1 and resource.device_sn=#{deviceSN}
+        order by resource.create_time desc
     </select>
 
-    <insert id="addResourceAddress" parameterType="ResourceAddress">
+    <insert id="addResourceAddress">
         insert into resources
-        (id, resource_address, device_id, space, storage_id, create_time, state, type )
+        (id, resource_address, device_sn, space, storage_id, create_time, state, type ,preview_pic, uploader_id)
         values
-        (uuid(),#{resourceAddress},#{deviceId},#{space},#{storageId},now(),1,#{type})
+        (uuid(),#{resourceAddress},#{device.sn},#{space},#{storageId},now(),1,#{type},#{previewPic},#{uploader.id})
     </insert>
 
     <update id="removeResourceAddress">

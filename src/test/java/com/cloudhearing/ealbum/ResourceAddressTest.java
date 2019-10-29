@@ -3,6 +3,7 @@ package com.cloudhearing.ealbum;
 
 import com.cloudhearing.ealbum.entity.Device;
 import com.cloudhearing.ealbum.entity.ResourceAddress;
+import com.cloudhearing.ealbum.entity.User;
 import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.service.ResourceAddressService;
 import org.junit.Test;
@@ -25,24 +26,37 @@ public class ResourceAddressTest {
 
 
     //@Test
+    // 1023测试
     public void listAllTest() {
         System.out.println(resourceService.listAll());
     }
 
     //@Test
+    // 1023测试
     public void addResourceAddressTest() {
         ResourceAddress resourceAddress = new ResourceAddress();
         resourceAddress.setStorageId("ALI");
         resourceAddress.setResourceAddress("/fdafd/fdsaf/dfafdaddff.jpg");
         resourceAddress.setSpace(1000);
         resourceAddress.setType(1);
-        resourceAddress.setDeviceId("842f97fe-dd31-11e9-a9a4-0a774baf5008");
+        resourceAddress.setPreviewPic("/fdsaf/dsf.jpg");
+        User uploader = new User();
+        uploader.setId("uploadeid");
+        Device device = new Device();
+        device.setSn("sn");
+        resourceAddress.setUploader(uploader);
+        resourceAddress.setDevice(device);
         System.out.println(resourceService.addResourceAddress(resourceAddress));
     }
 
     //@Test
     public void testFindByDeviceID() {
-        System.out.println(resourceService.findAllByDeviceID(1, 1, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+        //System.out.println(resourceService.findAllByDeviceID(1, 1, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+    }
+
+    //@Test
+    public void testFindByDeviceSN() {
+        System.out.println(resourceService.findAllByDeviceSN(1, 1, "1231"));
     }
 
     //@Test
@@ -51,11 +65,11 @@ public class ResourceAddressTest {
 
         resourceAddress.setId("7723272c-f2d7-11e9-acfd-00163e023e32");
 
-        System.out.println(resourceService.findAllByDeviceID(1, 5, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+        System.out.println(resourceService.findAllByDeviceSN(1, 5, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
 
         System.out.println(resourceService.removeResourceAddress(resourceAddress));
 
-        System.out.println(resourceService.findAllByDeviceID(1, 5, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
+        System.out.println(resourceService.findAllByDeviceSN(1, 5, "842f97fe-dd31-11e9-a9a4-0a774baf5008"));
 
 
     }

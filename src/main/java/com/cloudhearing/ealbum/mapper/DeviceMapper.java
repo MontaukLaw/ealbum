@@ -16,10 +16,14 @@ public interface DeviceMapper {
 
     int updateDevice(Device device);
 
-    int bindDeviceToUser(@Param("userId") String userId, @Param("deviceId") String deviceId);
+    int bindDeviceToUser(@Param("userId") String userId, @Param("sn") String sn);
 
-    Device getDeviceByID(Device device);
+    //Device getDeviceByID(Device device);
 
     Device getDeviceBySN(Device device);
+
+    int removeBinding(@Param("userId") String userId, @Param("sn") String sn);
+
+
 
 }

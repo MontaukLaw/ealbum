@@ -12,11 +12,12 @@ public interface ResourceAddressMapper {
 
     List<ResourceAddress> listAll();
 
+    //int addResourceAddress(ResourceAddress resourceAddress,@Param("deviceSN")String deviceSN,@Param("uploaderId")String uploaderId);
     int addResourceAddress(ResourceAddress resourceAddress);
 
     //List<ResourceAddress> findAllByDeviceID(ResourceAddress resourceAddress);
 
-    Page<ResourceAddress> findAllByDeviceID(int pageNo, int pageSize, @Param("deviceId") String deviceID);
+    Page<ResourceAddress> findAllByDeviceSN(int pageNo, int pageSize, @Param("deviceSN") String deviceSN);
 
     int removeResourceAddress(ResourceAddress resourceAddress);
 }

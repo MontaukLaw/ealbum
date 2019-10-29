@@ -4,8 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class Device {
-    // 10 项目
-    private String id, region, model, sn, firmwareVersion;
+    private String region, model, sn, firmwareVersion;
     private int usedSpace, totalSpace;
     private String email, jpushId;
     private Date activateTime, lastOnlineTime;
@@ -26,14 +25,6 @@ public class Device {
 
     public void setJpushId(String jpushId) {
         this.jpushId = jpushId;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getRegion() {
@@ -111,7 +102,6 @@ public class Device {
     @Override
     public String toString() {
         return "Device{" +
-                "id='" + id + '\'' +
                 ", region='" + region + '\'' +
                 ", model='" + model + '\'' +
                 ", sn='" + sn + '\'' +

@@ -22,11 +22,14 @@ public class EAlbumApplicationTests {
 
 
     //@Test
+    //1023测试过
     public void listAllTester() {
+
         System.out.println(userService.listAll());
     }
 
     //@Test
+    //1023测试过
     public void checkLoginTester() {
         User user = new User();
         user.setEmail("tester2@com");
@@ -74,9 +77,10 @@ public class EAlbumApplicationTests {
     }
 
     //@Test
+    //1023测试过
     public void getUserDetail() {
         User user = new User();
-        user.setId("7b335d6e-ea3c-11e9-acfd-00163e023e32");
+        user.setId("81bb89e0-dd02-11e9-a9a4-0a774baf5008");
         System.out.println(userService.getUserDetail(user));
 
     }

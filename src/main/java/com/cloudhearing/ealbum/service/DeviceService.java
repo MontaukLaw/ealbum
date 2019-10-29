@@ -15,11 +15,13 @@ public interface DeviceService {
 
     int updateDevice(Device device);
 
-    int bindDeviceToUser(String userId, String deviceId);
+    int bindDeviceToUser(String userId, String deviceSN);
 
-    Device getDeviceByID(Device device);
+//    Device getDeviceByID(Device device);
 
     Device getDeviceBySN(Device device);
+
+    int removeBinding(String userId, String deviceSN);
 
 
 }

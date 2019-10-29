@@ -22,24 +22,25 @@ public class DeviceTest {
     public void contextLoads() {
     }
 
-
     //@Test
     public void listAllTest() {
         System.out.println(deviceService.listAll());
     }
 
     //@Test
+    //1023测试过
     public void testAddDevice() {
         Device device = new Device();
         device.setFirmwareVersion("1.1");
         device.setModel("model");
-        device.setSn("sn12312");
+        device.setSn("test10232234");
         device.setRegion("somewhere");
         device.setJpushId("jpush");
         System.out.println(deviceService.addDevice(device));
     }
 
     //@Test
+    //1023测试过
     public void updateDevice() {
         Device device = new Device();
         device.setFirmwareVersion("1.2");
@@ -48,35 +49,45 @@ public class DeviceTest {
         device.setTotalSpace(1000);
         device.setUsedSpace(399);
         device.setEmail("fsa@fdsf.com");
-        device.setId("6f386000-e62f-11e9-a9a4-0a774baf5008");
         device.setJpushId("jpushxxx");
+        device.setSn("test10232234");
         System.out.println(deviceService.updateDevice(device));
 
     }
 
     //@Test
+    //1023测试过
     public void testBinding() {
         String userID = "81bb89e0-dd02-11e9-a9a4-0a774baf5008";
-        String deviceID = "6f386000-e62f-11e9-a9a4-0a774baf5008";
-        System.out.println(deviceService.bindDeviceToUser(userID, deviceID));
+        String sn = "test10232234";
+        System.out.println(deviceService.bindDeviceToUser(userID, sn));
     }
 
+//    //@Test
+//    public void testGetDeviceByID() {
+//        Device device = new Device();
+//
+////        device.setId("6f386000-e62f-11e9-a9a4-0a774baf5008");
+//device.setSn("");
+//        System.out.println(deviceService.getDeviceByID(device));
+//    }
+
+
     //@Test
-    public void testGetDeviceByID() {
-        Device device = new Device();
-
-        device.setId("6f386000-e62f-11e9-a9a4-0a774baf5008");
-
-        System.out.println(deviceService.getDeviceByID(device));
-    }
-
-
-    //@Test
+    //1023测试过
     public void testGetDeviceBySN() {
         Device device = new Device();
-        device.setSn("3B5NCG2AWK");
+        device.setSn("test10232234");
         System.out.println(deviceService.getDeviceBySN(device));
     }
 
+    //@Test
+    //1026
+    public void testRemoveBinding() {
+        String userid = "a";
+        String sn = "b";
+        System.out.println(deviceService.removeBinding("a", "b"));
+
+    }
 
 }

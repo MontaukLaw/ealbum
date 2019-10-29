@@ -1,7 +1,6 @@
 package com.cloudhearing.ealbum.controller;
 
 import com.cloudhearing.ealbum.entity.Device;
-import com.cloudhearing.ealbum.entity.User;
 import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.utils.JsonMsg;
 import org.apache.ibatis.annotations.Param;
@@ -35,15 +34,15 @@ public class DeviceController extends BaseController {
         return jsonMsg;
     }
 
-    @GetMapping("/devices/{id}")
-    public JsonMsg getDeviceByID(@PathVariable("id") String deviceId) {
-        Device device = new Device();
-        device.setId(deviceId);
-
-        JsonMsg jsonMsg = feedbackJson(deviceService.getDeviceByID(device));
-
-        return jsonMsg;
-    }
+//    @GetMapping("/devices/{id}")
+//    public JsonMsg getDeviceByID(@PathVariable("id") String deviceId) {
+//        Device device = new Device();
+//        device.setId(deviceId);
+//
+//        JsonMsg jsonMsg = feedbackJson(deviceService.getDeviceByID(device));
+//
+//        return jsonMsg;
+//    }
 
     @RequestMapping(value = "/devices/", method = RequestMethod.PUT)
     public JsonMsg updateDevice(Device device) {
@@ -63,12 +62,19 @@ public class DeviceController extends BaseController {
     }
 
     @PostMapping("/devices/binding")
-    public JsonMsg bindDeviceToUser(@Param("userId") String userId, @Param("deviceId") String deviceId) {
+    public JsonMsg bindDeviceToUser(@Param("userId") String userId, @Param("deviceSN") String deviceSN) {
 
-        JsonMsg jsonMsg = feedbackJson(deviceService.bindDeviceToUser(userId, deviceId));
+        JsonMsg jsonMsg = feedbackJson(deviceService.bindDeviceToUser(userId, deviceSN));
 
         return jsonMsg;
+    }
 
+    @RequestMapping(value = "/devices/binding",method = RequestMethod.DELETE)
+    public JsonMsg removeBindg(@Param("userId") String userId, @Param("deviceSN") String deviceSN) {
+
+        JsonMsg jsonMsg = feedbackJson(deviceService.removeBinding(userId, deviceSN));
+
+        return jsonMsg;
     }
 
 }

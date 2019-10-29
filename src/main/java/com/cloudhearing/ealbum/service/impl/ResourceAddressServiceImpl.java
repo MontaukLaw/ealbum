@@ -27,10 +27,15 @@ public class ResourceAddressServiceImpl implements ResourceAddressService {
         return resourceAddressMapper.addResourceAddress(resourceAddress);
     }
 
+//    @Override
+//    public int addResourceAddress(ResourceAddress resourceAddress, String deviceSN, String uploaderId) {
+//        return resourceAddressMapper.addResourceAddress(resourceAddress, deviceSN, uploaderId);
+//    }
+
     @Override
-    public Page<ResourceAddress> findAllByDeviceID(int pageNo, int pageSize, String deviceID) {
+    public Page<ResourceAddress> findAllByDeviceSN(int pageNo, int pageSize, String deviceSN) {
         PageHelper.startPage(pageNo, pageSize);
-        return resourceAddressMapper.findAllByDeviceID(pageNo, pageSize, deviceID);
+        return resourceAddressMapper.findAllByDeviceSN(pageNo, pageSize, deviceSN);
     }
 
     @Override
