@@ -20,4 +20,6 @@ public interface UserMapper {
 
     User getUserDetail(User user);
 
+    String getUserJpushID(String id);
+
 }

@@ -46,4 +46,10 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserDetail(user);
     }
 
+    @Override
+    public String getUserJpushID(String id){
+
+        return userMapper.getUserJpushID(id);
+    }
+
 }

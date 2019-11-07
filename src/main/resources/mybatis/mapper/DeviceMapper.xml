@@ -34,6 +34,9 @@
     <!--where device.id =#{id}-->
 
     <!--</select>-->
+    <select id="getDeviceJpushID" resultType="String" parameterType="String">
+        select jpush_id from devices where sn=#{sn}
+    </select>
 
     <select id="getDeviceBySN" resultMap="DeviceResultMap">
         select device.activate_time,device.last_online_time,device.region,model,device.sn,
@@ -101,10 +104,12 @@
         (uuid(),#{userId},#{sn},now())
     </insert>
 
+    <select id="bindingCheck" parameterType="String" resultType="Integer">
+        select count(*) from user_device where user_id=#{userId} and device_sn =#{sn}
+    </select>
+
     <delete id="removeBinding" parameterType="String">
-
         delete from user_device where user_id=#{userId} and device_sn =#{sn}
-
     </delete>
 
 </mapper>

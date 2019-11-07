@@ -13,16 +13,22 @@ public class RandomCheckCodeController extends BaseController {
     @Autowired
     RandomCodeService randomCodeService;
 
+
     @PostMapping("/randomCodes/")
     public JsonMsg createRandomCode(RandomCheckCode randomCheckCode) {
-        JsonMsg jsonMsg = new JsonMsg();
-        randomCodeService.createRandomCheckCode(randomCheckCode);
-        return jsonMsg;
+        return feedbackJson(randomCodeService.createRandomCheckCode(randomCheckCode));
     }
 
     @GetMapping("/randomCodes/{code}")
     public JsonMsg getRandomCodeByCheckCode(@PathVariable("code") String checkCode) {
-        logger.debug(randomCodeService.getRandomCheckCodeList());
-        return feedbackJson(randomCodeService.getRandomCheckCodeByCode(checkCode));
+        JsonMsg jsonMsg=new JsonMsg();
+        //logger.debug(randomCodeService.getRandomCheckCodeList());
+        RandomCheckCode rcc = randomCodeService.getRandomCheckCodeByCode(checkCode);
+        if (rcc != null) {
+            jsonMsg.setObj(rcc);
+            return jsonMsg;
+        }
+        jsonMsg.setSuccess(false);
+        return jsonMsg;
     }
 }

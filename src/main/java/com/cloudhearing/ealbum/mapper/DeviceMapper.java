@@ -24,6 +24,7 @@ public interface DeviceMapper {
 
     int removeBinding(@Param("userId") String userId, @Param("sn") String sn);
 
+    int bindingCheck(@Param("userId") String userId, @Param("sn") String sn);
 
-
+    String getDeviceJpushID(String id);
 }

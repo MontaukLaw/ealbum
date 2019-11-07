@@ -36,4 +36,12 @@ public class BaseController {
         return jsonMsg;
     }
 
+    protected JsonMsg feedbackErrorJson(String errorMsg) {
+
+        JsonMsg jsonMsg = new JsonMsg();
+        jsonMsg.setSuccess(false);
+        jsonMsg.setMsg(errorMsg);
+        return jsonMsg;
+    }
+
 }

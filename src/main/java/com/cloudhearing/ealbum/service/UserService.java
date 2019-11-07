@@ -19,4 +19,6 @@ public interface UserService {
     int editUser(User user);
 
     User getUserDetail(User user);
+
+    String getUserJpushID(String id);
 }

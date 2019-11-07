@@ -2,6 +2,7 @@ package com.cloudhearing.ealbum.service;
 
 import com.cloudhearing.ealbum.entity.Device;
 import com.cloudhearing.ealbum.entity.User;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,5 +24,8 @@ public interface DeviceService {
 
     int removeBinding(String userId, String deviceSN);
 
+    int bindingCheck(String userId, String sn);
+
+    String getDeviceJpushID(String sn);
 
 }

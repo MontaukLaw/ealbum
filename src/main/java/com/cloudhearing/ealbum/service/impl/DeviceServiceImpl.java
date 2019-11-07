@@ -6,6 +6,7 @@ import com.cloudhearing.ealbum.mapper.DeviceMapper;
 import com.cloudhearing.ealbum.mapper.UserMapper;
 import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -53,4 +54,15 @@ public class DeviceServiceImpl implements DeviceService {
     public int removeBinding(String userId, String deviceSN) {
         return deviceMapper.removeBinding(userId, deviceSN);
     }
+
+    @Override
+    public int bindingCheck(String userId, String sn) {
+        return deviceMapper.bindingCheck(userId, sn);
+    }
+
+    @Override
+    public String getDeviceJpushID(String sn) {
+        return deviceMapper.getDeviceJpushID(sn);
+    }
+
 }

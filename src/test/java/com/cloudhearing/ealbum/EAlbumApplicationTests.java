@@ -78,10 +78,21 @@ public class EAlbumApplicationTests {
 
     //@Test
     //1023测试过
+    //1103重新测试
+    //1106测试
     public void getUserDetail() {
         User user = new User();
-        user.setId("81bb89e0-dd02-11e9-a9a4-0a774baf5008");
-        System.out.println(userService.getUserDetail(user));
+        user.setId("430f115d-eb30-11e9-acfd-00163e023e32");
+        //System.out.println(userService.getUserDetail(user));
+        System.out.println(userService.getUserDetail(user).getDevices());
+
+
 
     }
+
+    //@Test
+    public void testGetUserJpushID(){
+        System.out.println(userService.getUserJpushID("0067054a-ecca-11e9-acfd-00163e023e32"));
+    }
+
 }

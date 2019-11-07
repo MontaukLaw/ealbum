@@ -16,18 +16,24 @@ public class RandomCodeService {
         return randomCheckCodeList;
     }
 
-    public void createRandomCheckCode(RandomCheckCode randomCheckCode) {
+    public RandomCheckCode createRandomCheckCode(RandomCheckCode randomCheckCode) {
         for (int i = 0; i < randomCheckCodeList.size(); i++) {
             //如果记录存在
-            if (randomCheckCodeList.get(i).getSn().equals(randomCheckCode.getSn())) {
-                randomCheckCodeList.get(i).setCreateTime(new Date());
-                randomCheckCodeList.get(i).setRandomCode(randomCheckCode.getRandomCode());
-                return;
+            RandomCheckCode rcc = randomCheckCodeList.get(i);
+            if (rcc.getSn().equals(randomCheckCode.getSn())) {
+                rcc.setCreateTime(new Date());
+                //生成一个6位数字的随机码?
+                String randomCode = TokenTool.getRandomNumber(6);
+                rcc.setRandomCode(randomCode);
+                return rcc;
             }
         }
         //如果记录不存在
         randomCheckCode.setCreateTime(new Date());
+        String randomCode = TokenTool.getRandomNumber(6);
+        randomCheckCode.setRandomCode(randomCode);
         randomCheckCodeList.add(randomCheckCode);
+        return randomCheckCode;
 
     }
 

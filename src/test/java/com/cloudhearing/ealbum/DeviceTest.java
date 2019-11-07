@@ -90,4 +90,20 @@ public class DeviceTest {
 
     }
 
+    //@Test
+    public void bindingCheckTest() {
+
+        String userid = "a";
+        String sn = "b";
+        System.out.println(deviceService.bindingCheck("b96e2dfe-dd11-11e9-a9a4-0a774baf500", "81CLJ0EXQD"));
+
+    }
+
+    //@Test
+    public void getDeviceJpushIDTest() {
+
+        System.out.println(deviceService.getDeviceJpushID("2FRQ28Y05U"));
+    }
+
+
 }
