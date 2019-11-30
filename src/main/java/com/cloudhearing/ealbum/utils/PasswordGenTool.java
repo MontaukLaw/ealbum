@@ -2,6 +2,8 @@ package com.cloudhearing.ealbum.utils;
 
 import org.apache.shiro.crypto.hash.SimpleHash;
 
+import java.util.Random;
+
 public class PasswordGenTool {
     public static String genPassword(String originPassword) {
 
@@ -28,4 +30,6 @@ public class PasswordGenTool {
         return hash.toString();
 
     }
+
+
 }

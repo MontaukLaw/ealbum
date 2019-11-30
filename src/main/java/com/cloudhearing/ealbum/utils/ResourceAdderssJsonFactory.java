@@ -21,13 +21,18 @@ public class ResourceAdderssJsonFactory {
 
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
 
+                String id = jsonObject.getString("id");
+                if (id != null && !id.equals("")) {
+                    resourceAddress.setId(id);
+                }
+
                 String ra = jsonObject.getString("resourceAddress");
                 if (ra != null && !ra.equals("")) {
                     resourceAddress.setResourceAddress(ra);
                 }
 
-                long space = jsonObject.getLong("space");
-                if (space > 0) {
+                Long space = jsonObject.getLong("space");
+                if (space != null && space > 0) {
                     resourceAddress.setSpace(space);
                 }
 
@@ -37,8 +42,8 @@ public class ResourceAdderssJsonFactory {
                     resourceAddress.setStorageId(storageId);
                 }
 
-                int type = jsonObject.getInteger("type");
-                if (type > 0) {
+                Integer type = jsonObject.getInteger("type");
+                if (type != null && type > 0) {
                     resourceAddress.setType(type);
                 }
 
@@ -52,7 +57,7 @@ public class ResourceAdderssJsonFactory {
                 if (jsonObjectDevice != null) {
                     String deviceSN = jsonObjectDevice.getString("sn");
                     if (deviceSN != null && !deviceSN.equals("")) {
-                        Device device=new Device();
+                        Device device = new Device();
 
                         device.setSn(deviceSN);
 
@@ -60,14 +65,14 @@ public class ResourceAdderssJsonFactory {
                     }
                 }
 
-                JSONObject jsonObjectUser=jsonObject.getJSONObject("uploader");
+                JSONObject jsonObjectUser = jsonObject.getJSONObject("uploader");
 
                 if (jsonObjectUser != null) {
-                    String id = jsonObjectUser.getString("id");
-                    if (id != null && !id.equals("")) {
-                        User user=new User();
+                    String userId = jsonObjectUser.getString("id");
+                    if (userId != null && !userId.equals("")) {
+                        User user = new User();
 
-                        user.setId(id);
+                        user.setId(userId);
                         resourceAddress.setUploader(user);
                     }
                 }

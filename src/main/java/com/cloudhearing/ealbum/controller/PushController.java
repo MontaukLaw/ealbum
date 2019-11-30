@@ -3,6 +3,7 @@ package com.cloudhearing.ealbum.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.cloudhearing.ealbum.config.ServiceConfig;
+import com.cloudhearing.ealbum.service.impl.JPushService;
 import com.cloudhearing.okhttp.ApiAccess;
 import com.cloudhearing.ealbum.utils.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class PushController extends BaseController {
 
     @Autowired
     public ServiceConfig serviceConfig;
+
+    @Autowired
+    JPushService jPushService;
 
     @PostMapping("/pushMsgToApp")
     public JsonMsg pushMsgToApp(@RequestBody JSONObject obj) {
@@ -42,6 +46,8 @@ public class PushController extends BaseController {
             return jsonMsg;
         }
 
+        //String resultStr = jPushService.push(key, secrete, obj);
+
         //根据配置文件的App配置信息, 访问对应的极光推送接口.
         ApiAccess apiAccess = new ApiAccess(serviceConfig.getApiAddress(), key, secrete);
 
@@ -51,7 +57,9 @@ public class PushController extends BaseController {
 
         //获取推送结果
         String resultStr = apiAccess.handlePush(msg);
-        logger.debug("resultStr string is : " + resultStr);
+
+
+        logger.debug("resultStr string is " + resultStr);
 
         //对推送结果进行分析
         JpushResponse response = ResponseStringTool.tranString(resultStr);
@@ -60,6 +68,7 @@ public class PushController extends BaseController {
         if (response.isIfError()) {
             return PushResultTool.reslutProcess(resultStr);
         }
+
 
         //拿到推送返回中的messageID, 通过messageID, 访问极光的结果查询接口, 希望获取推送结果的具体信息.
         apiAccess.setApiAddress(serviceConfig.getResultApiAddress());

@@ -73,4 +73,18 @@ public class ResourceAddressTest {
 
 
     }
+
+    //@Test
+    public void testFileterSearch() {
+        //System.out.println(resourceService.findAllByDeviceSNWithFilter(1, 5, "F288MLUZ5X", "0dea9cb2-eb2f-11e9-acfd-00163e023e32", 1));
+        System.out.println(resourceService.findAllByDeviceSNWithFilter(1, 5, "F288MLUZ5X", "0", 1));
+
+    }
+
+    //@Test
+    public void testFindByID(){
+        ResourceAddress resourceAddress=new ResourceAddress();
+        resourceAddress.setId("222");
+        System.out.println(resourceService.findResourceById(resourceAddress));
+    }
 }

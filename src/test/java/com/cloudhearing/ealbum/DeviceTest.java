@@ -105,5 +105,11 @@ public class DeviceTest {
         System.out.println(deviceService.getDeviceJpushID("2FRQ28Y05U"));
     }
 
+    @Test
+    public void getDeviceByEmail() {
+        Device device = new Device();
+        device.setEmail("wangwu");
+        System.out.println(deviceService.getDeviceByEmail(device));
+    }
 
 }

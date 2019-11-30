@@ -40,11 +40,6 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.bindDeviceToUser(userId, deviceSN);
     }
 
-//    @Override
-//    public Device getDeviceByID(Device device) {
-//        return deviceMapper.getDeviceByID(device);
-//    }
-
     @Override
     public Device getDeviceBySN(Device device) {
         return deviceMapper.getDeviceBySN(device);
@@ -64,5 +59,11 @@ public class DeviceServiceImpl implements DeviceService {
     public String getDeviceJpushID(String sn) {
         return deviceMapper.getDeviceJpushID(sn);
     }
+
+    @Override
+    public Device getDeviceByEmail(Device device) {
+        return deviceMapper.getDeviceByEmail(device);
+    }
+
 
 }

@@ -39,6 +39,15 @@ public class DeviceController extends BaseController {
         return jsonMsg;
     }
 
+    @GetMapping("/devices/email/{email}")
+    public JsonMsg getDeviceByEmail(@PathVariable("email") String email) {
+
+        Device device = new Device();
+        device.setEmail(email);
+
+        return feedbackJson(deviceService.getDeviceByEmail(device));
+    }
+
     @GetMapping("/devices/sn/{sn}")
     public JsonMsg getDeviceBySN(@PathVariable("sn") String sn) {
         Device device = new Device();
@@ -61,10 +70,22 @@ public class DeviceController extends BaseController {
 
     @RequestMapping(value = "/devices/", method = RequestMethod.PUT)
     public JsonMsg updateDevice(Device device) {
+        int result = deviceService.updateDevice(device);
 
-        JsonMsg jsonMsg = feedbackJson(deviceService.updateDevice(device));
+        if (result > 0) {
+            List<User> userList = deviceService.getDeviceBySN(device).getOwners();
+            for (int i = 0; i < userList.size(); i++) {
+                String userJpushID = userList.get(i).getJpushId();
 
-        return jsonMsg;
+                jPushService.pushDeviceUpdateToUser(device.getSn(), userJpushID);
+
+            }
+
+        } else {
+            return feedbackErrorJson("Device update failed");
+        }
+
+        return feedbackJson(result);
     }
 
     @PostMapping("/devices/")
@@ -116,8 +137,8 @@ public class DeviceController extends BaseController {
             result = deviceService.bindDeviceToUser(userId, deviceSN);
 
             if (result > 0) {
-                jPushService.pushBindingSuccessToUser(userJpushId);
-                jPushService.pushBindingSuccessToDevice(deviceJpushID);
+                //jPushService.pushBindingSuccessToUser(userId, userJpushId);
+                jPushService.pushBindingSuccessToDevice(userId, deviceJpushID);
             }
         }
 
@@ -134,13 +155,13 @@ public class DeviceController extends BaseController {
     }
 
 
-    @RequestMapping(value = "/devices/binding/fromApp", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/devices/binding/fromDevice", method = RequestMethod.DELETE)
     public JsonMsg removeBindFromApp(@Param("userId") String userId, @Param("deviceSN") String deviceSN) {
 
         if (deviceService.removeBinding(userId, deviceSN) > 0) {
             String userJpushID = userService.getUserJpushID(userId);
-
-            jPushService.pushUnbindingSuccessToUser(userJpushID);
+            //String deviceJpushID = deviceService.getDeviceJpushID(deviceSN);
+            jPushService.pushUnbindingSuccessToUser(deviceSN, userJpushID);
 
         } else {
 
@@ -151,14 +172,14 @@ public class DeviceController extends BaseController {
         return feedbackJson("Unbind success");
     }
 
-    @RequestMapping(value = "/devices/binding/fromDevice", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/devices/binding/fromApp", method = RequestMethod.DELETE)
     public JsonMsg removeBindFromDevice(@Param("userId") String userId, @Param("deviceSN") String deviceSN) {
 
         if (deviceService.removeBinding(userId, deviceSN) > 0) {
 
             String deviceJpushID = deviceService.getDeviceJpushID(deviceSN);
 
-            jPushService.pushUnbindingSuccessToDevice(deviceJpushID);
+            jPushService.pushUnbindingSuccessToDevice(userId, deviceJpushID);
         } else {
             return feedbackErrorJson("Unbind fail.");
         }

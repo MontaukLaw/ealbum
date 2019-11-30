@@ -1,13 +1,17 @@
 package com.cloudhearing.ealbum.controller;
 
 
+import com.cloudhearing.ealbum.entity.Device;
 import com.cloudhearing.ealbum.entity.User;
+import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.service.UserService;
+import com.cloudhearing.ealbum.service.impl.JPushService;
 import com.cloudhearing.ealbum.utils.JsonMsg;
 import com.cloudhearing.ealbum.utils.PasswordGenTool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -15,6 +19,12 @@ import java.util.UUID;
 public class UserController extends BaseController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    JPushService jPushService;
+
+    @Autowired
+    DeviceService deviceService;
 
     private User encryptPassword(User user) {
 
@@ -34,25 +44,42 @@ public class UserController extends BaseController {
     @PostMapping("/users/")
     public JsonMsg addUser(User user) {
         User u = encryptPassword(user);
-        String uuid = UUID.randomUUID().toString();
-        u.setId(uuid);
-        JsonMsg jsonMsg = new JsonMsg();
-        int result = userService.addUser(u);
-        if (result > 0) {
-            jsonMsg = feedbackJson(uuid);
-        } else {
-            jsonMsg.setSuccess(false);
-            jsonMsg.setMsg("ERROR");
+
+        String userCell = user.getCellModel();
+        String userEmail = user.getEmail();
+
+        //不能添加相同的手机号
+        if (userCell != null && !userCell.equals("")) {
+            if (userService.getUserByCell(user) != null) {
+                return feedbackErrorJson("Duplicate cell phone number.");
+            }
         }
 
-        return jsonMsg;
+        //不能添加相同的邮件地址
+        if (userEmail != null && !userEmail.equals("")) {
+            if (userService.getUserByEmail(user) != null) {
+                return feedbackErrorJson("Duplicate email address.");
+            }
+        }
+
+        String uuid = UUID.randomUUID().toString();
+        u.setId(uuid);
+        int result = userService.addUser(u);
+        if (result > 0) {
+            return feedbackJson(uuid);
+        } else {
+            return feedbackErrorJson("Add user failed");
+        }
     }
 
     @PostMapping("/users/checkLogin")
     public JsonMsg checkLogin(User user) {
         User u = encryptPassword(user);
-        JsonMsg jsonMsg = feedbackJson(userService.checkLogin(u));
-        return jsonMsg;
+        List<User> userList = userService.checkLogin(u);
+        if (userList.size() > 1) {
+            return feedbackErrorJson("Over 1 result");
+        }
+        return feedbackJson(userList.get(0));
     }
 
     @GetMapping("/users/")
@@ -70,8 +97,22 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/users/", method = RequestMethod.PUT)
     public JsonMsg updateUser(User user) {
         User u = encryptPassword(user);
-        JsonMsg jsonMsg = feedbackJson(userService.editUser(u));
-        return jsonMsg;
+
+        int result = userService.editUser(u);
+        if (result > 0) {
+            List<Device> deviceList = userService.getUserDetail(user).getDevices();
+            for (int i = 0; i < deviceList.size(); i++) {
+                String deviceJpushID = deviceService.getDeviceJpushID(deviceList.get(i).getSn());
+
+                jPushService.pushUserUpdateToDevice(deviceJpushID, user.getId());
+            }
+
+        } else {
+
+            return feedbackErrorJson("Update user failed");
+        }
+
+        return feedbackJson(result);
     }
 
     @GetMapping("/user/{id}/")

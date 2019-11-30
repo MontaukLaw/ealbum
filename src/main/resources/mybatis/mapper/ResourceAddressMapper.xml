@@ -24,6 +24,37 @@
     <!--or (cell_number =#{cellNumber} and password =#{password} and state = 1)-->
     <!--</select>-->
 
+    <select id="findAllByDeviceSNWithFilter" resultMap="ResourceAddressResultMap">
+        select resource.id,
+        resource.resource_address,resource.space,resource.storage_id,
+        resource.create_time,resource.state,resource.type,resource.preview_pic,
+        resource.device_sn, resource.uploader_id user_id, user.username user_username, user.jpush_id user_jpush_id,
+        device.jpush_id device_jpush_id
+        from resources resource
+        left join devices device
+        on resource.device_sn = device.sn
+        left join users user
+        on resource.uploader_id = user.id
+        where resource.state = 1 and resource.device_sn=#{deviceSN}
+        <if test="type != 0">
+            and type = #{type}
+        </if>
+
+        <if test="userid != null">
+            and uploader_id = #{userid}
+        </if>
+        order by resource.create_time desc
+
+    </select>
+
+    <select id="findResourceById" resultMap="ResourceAddressResultMap">
+        select id,resource_address,space,storage_id,create_time,state,type,preview_pic,uploader_id user_id,device_sn
+        device_sn
+        from resources
+        where id = #{id}
+
+    </select>
+
     <select id="listAll" resultMap="ResourceAddressResultMap">
         select resource.id,
         resource.resource_address,resource.space,resource.storage_id,

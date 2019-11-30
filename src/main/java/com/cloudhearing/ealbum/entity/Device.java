@@ -102,7 +102,7 @@ public class Device {
     @Override
     public String toString() {
         return "Device{" +
-                ", region='" + region + '\'' +
+                "region='" + region + '\'' +
                 ", model='" + model + '\'' +
                 ", sn='" + sn + '\'' +
                 ", firmwareVersion='" + firmwareVersion + '\'' +

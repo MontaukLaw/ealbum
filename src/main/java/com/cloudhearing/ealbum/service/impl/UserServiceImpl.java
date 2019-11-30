@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
     UserMapper userMapper;
 
     @Override
-    public User checkLogin(User user) {
+    public List<User> checkLogin(User user) {
         return userMapper.checkLogin(user);
     }
 
@@ -47,9 +47,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getUserJpushID(String id){
+    public String getUserJpushID(String id) {
 
         return userMapper.getUserJpushID(id);
+    }
+
+    @Override
+    public User getUserByCell(User user) {
+        return userMapper.getUserByCell(user);
+    }
+
+    @Override
+    public User getUserByEmail(User user) {
+        return userMapper.getUserByEmail(user);
     }
 
 }

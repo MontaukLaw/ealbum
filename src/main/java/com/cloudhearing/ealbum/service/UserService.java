@@ -10,7 +10,7 @@ public interface UserService {
 
     List<User> listAll();
 
-    User checkLogin(User user);
+    List<User> checkLogin(User user);
 
     int addUser(User user);
 
@@ -21,4 +21,8 @@ public interface UserService {
     User getUserDetail(User user);
 
     String getUserJpushID(String id);
+
+    User getUserByCell(User user);
+
+    User getUserByEmail(User user);
 }

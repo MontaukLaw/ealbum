@@ -1,10 +1,8 @@
 package com.cloudhearing.ealbum.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.cloudhearing.ealbum.entity.Device;
-import com.cloudhearing.ealbum.entity.ResourceAddress;
-import com.cloudhearing.ealbum.entity.User;
+import com.cloudhearing.ealbum.entity.*;
+import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.service.ResourceAddressService;
 import com.cloudhearing.ealbum.service.UserService;
 import com.cloudhearing.ealbum.service.impl.JPushService;
@@ -27,19 +25,44 @@ public class ResourceAddressController extends BaseController {
     @Autowired
     JPushService jPushService;
 
+    @Autowired
+    DeviceService deviceService;
+
     @GetMapping("/resourceAddresses/device/{sn}/pageno={pageno}&pagesize={pagesize}")
-    public JsonMsg findByDeviceID(@PathVariable("pageno") int pageNo, @PathVariable("pagesize") int pageSize, @PathVariable("sn") String sn) {
+    public JsonMsg findByDeviceID(ResourceAddress resourceAddress, @PathVariable("pageno") int pageNo, @PathVariable("pagesize") int pageSize, @PathVariable("sn") String sn) {
+        System.out.println(resourceAddress);
         return feedbackJson(resourceAddressService.findAllByDeviceSN(pageNo, pageSize, sn));
+    }
+
+    @GetMapping("/resourceAddresses/device/{sn}/")
+    public JsonMsg findByDeviceID(ResourceAddress resourceAddress, PageData pageData, @PathVariable("sn") String sn) {
+
+        //System.out.println(resourceAddress);
+        //System.out.println(pageData);
+        return feedbackJson(resourceAddressService.findAllByDeviceSNWithFilter(pageData.getPageno(), pageData.getPagesize(), sn, resourceAddress.getUserID(), resourceAddress.getType()));
+
     }
 
     @RequestMapping(value = "/resourceAddresses/", method = RequestMethod.DELETE)
     public JsonMsg removeResourceAddress(ResourceAddress resourceAddress) {
+        ResourceAddress resourceAddressInDB = resourceAddressService.findResourceById(resourceAddress);
+        String deviceSN = resourceAddressInDB.getDevice().getSn();
+        String userID = resourceAddressInDB.getUploader().getId();
         int result = resourceAddressService.removeResourceAddress(resourceAddress);
         if (result > 0) {
-            String userID = resourceAddress.getUserID();
-            if (userID != null) {
+            if (userID != null && deviceSN != null) {
+                //User inputUser = new User();
+                //inputUser.setId(userID);
+                //User userInDB = userService.getUserDetail(inputUser);
+                //List<Device> deviceList = userInDB.getDevices();
+                // for (int i = 0; i < deviceList.size(); i++) {
+                // Device device = deviceList.get(i);
+                //String deviceJpush = deviceService.getDeviceJpushID(device.getSn());
+                String userJpushID = userService.getUserJpushID(userID);
+                jPushService.pushResourceUpdateToUser(deviceSN, userJpushID, resourceAddress.getType());
+                //}
 
-                notifyToDeviceByUserID(userID);
+                //notifyToDeviceByUserID(userID,resourceAddress.getType());
             }
 
         } else {
@@ -62,7 +85,7 @@ public class ResourceAddressController extends BaseController {
         int result = resourceAddressService.addResourceAddress(resourceAddress);
         if (result > 0) {
 
-            notifyToDeviceByUserID(userID);
+            notifyToDeviceByUserID(userID, sn, resourceAddress.getType());
 
         } else {
 
@@ -76,39 +99,100 @@ public class ResourceAddressController extends BaseController {
         return feedbackJson(resourceAddressService.listAll());
     }
 
-    @PostMapping("/resourceAddresses/byJson")
-    public JsonMsg pushMsgToDevice(@RequestBody JSONObject obj) throws Exception {
+    @RequestMapping(value = "/resourceAddresses/byJson", method = RequestMethod.DELETE)
+    public JsonMsg removeResourceFromJson(@RequestBody JSONObject obj) throws Exception {
         List<ResourceAddress> resourceAddressList = ResourceAdderssJsonFactory.transResAddrsJsonToEntity(obj);
-        logger.debug(resourceAddressList);
+        int result = 0;
+        ResourceAddress ra = null;
+        String userID = null;
+        String deviceSN = null;
+        ResourceAddress resourceAddressInDB = null;
         if (resourceAddressList != null) {
             for (int i = 0; i < resourceAddressList.size(); i++) {
-                ResourceAddress ra = resourceAddressList.get(i);
-                resourceAddressService.addResourceAddress(ra);
+                ra = resourceAddressList.get(i);
+
+                resourceAddressInDB = resourceAddressService.findResourceById(ra);
+
+                result = result + resourceAddressService.removeResourceAddress(ra);
+
+            }
+
+            if (result > 0) {
+
+                if (resourceAddressInDB != null) {
+
+                    userID = resourceAddressInDB.getUploader().getId();
+
+                    deviceSN = resourceAddressInDB.getDevice().getSn();
+
+                    logger.debug(userID + deviceSN);
+
+                    if (userID != null && deviceSN != null) {
+
+                        String userJpushID = userService.getUserJpushID(userID);
+
+                        jPushService.pushResourceUpdateToUser(deviceSN, userJpushID, resourceAddressInDB.getType());
+
+                        return feedbackJson("removed.");
+                    }
+
+                }
+
+                //resourceAddressInDB = resourceAddressService.findResourceById(ra);
+
+            }
+
+        }
+
+        return feedbackErrorJson("Remove failed");
+
+    }
+
+
+    @PostMapping("/resourceAddresses/byJson")
+    public JsonMsg addResourceFromJson(@RequestBody JSONObject obj) throws Exception {
+        List<ResourceAddress> resourceAddressList = ResourceAdderssJsonFactory.transResAddrsJsonToEntity(obj);
+        logger.debug(resourceAddressList);
+        int result = 0;
+        User user = null;
+        Device device = null;
+        ResourceAddress ra = null;
+        if (resourceAddressList != null) {
+            for (int i = 0; i < resourceAddressList.size(); i++) {
+                ra = resourceAddressList.get(i);
+                device = ra.getDevice();
+                result = resourceAddressService.addResourceAddress(ra);
 
                 if (ra.getUploader() != null) {
 
-                    User user = userService.getUserDetail(ra.getUploader());
+                    user = userService.getUserDetail(ra.getUploader());
 
                     if (user != null) {
 
-                        notifyToDeviceByUserID(user.getId());
+                        List<Device> devices = user.getDevices();
 
+                        //device = devices.get(0);
                     }
+                }
+            }
+
+            if (result > 0) {
+                if (user != null && device != null) {
+                    notifyToDeviceByUserID(user.getId(), device.getSn(), ra.getType());
                 }
             }
 
         }
         return new JsonMsg();
-
     }
 
 
-    void notifyToDeviceByUserID(String userID) {
+    void notifyToDeviceByUserID(String userID, String deviceSN, int resourceType) {
 
-        String jpushID = userService.getUserJpushID(userID);
-
+        //String jpushID = userService.getUserJpushID(userID);
+        String deviceJpushID = deviceService.getDeviceJpushID(deviceSN);
         //推送给设备端
-        jPushService.pushResourceUpdateToDevice(jpushID);
+        jPushService.pushResourceUpdateToDevice(userID, deviceJpushID, resourceType);
     }
 
 }

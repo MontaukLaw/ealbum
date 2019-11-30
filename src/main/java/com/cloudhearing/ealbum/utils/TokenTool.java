@@ -7,9 +7,17 @@ import java.util.Random;
 
 public class TokenTool {
     static String[] allChars = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
-            "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+            "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
 
-    };
+    static String[] letters = {"a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
+            "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
+
+    public static String getRandomUpcaseChars(int length) {
+        String result = getRandomString(letters, length);
+
+        return result.toUpperCase();
+    }
+
 
     //生成随机数字
     public static String getRandomNumber(int length) {
@@ -22,13 +30,18 @@ public class TokenTool {
         return result;
     }
 
+    public static String getRandomString(int length) {
+
+        return getRandomString(allChars, length);
+    }
+
 
     //生成随机32位字符
-    public static String getRandomString(int length) {
+    public static String getRandomString(String[] charArray, int length) {
         String result = "";
         Random r = new Random();
         for (int i = 0; i < length; i++) {
-            result = result + allChars[r.nextInt(allChars.length)];
+            result = result + charArray[r.nextInt(charArray.length)];
 
         }
         return result;

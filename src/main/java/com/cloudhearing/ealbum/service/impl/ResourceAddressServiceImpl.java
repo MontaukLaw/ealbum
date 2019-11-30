@@ -43,4 +43,16 @@ public class ResourceAddressServiceImpl implements ResourceAddressService {
         return resourceAddressMapper.removeResourceAddress(resourceAddress);
     }
 
+    @Override
+    public Page<ResourceAddress> findAllByDeviceSNWithFilter(int pageNo, int pageSize, String deviceSN, String userid, int type) {
+        PageHelper.startPage(pageNo, pageSize);
+        return resourceAddressMapper.findAllByDeviceSNWithFilter(pageNo, pageSize, deviceSN, userid, type);
+    }
+
+    @Override
+    public ResourceAddress findResourceById(ResourceAddress resourceAddress) {
+
+        return resourceAddressMapper.findResourceById(resourceAddress);
+    }
+
 }

@@ -22,9 +22,13 @@ public interface DeviceMapper {
 
     Device getDeviceBySN(Device device);
 
+    Device getDeviceByEmail(Device device);
+
     int removeBinding(@Param("userId") String userId, @Param("sn") String sn);
 
     int bindingCheck(@Param("userId") String userId, @Param("sn") String sn);
 
     String getDeviceJpushID(String id);
+
+
 }

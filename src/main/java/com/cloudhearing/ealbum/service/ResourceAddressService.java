@@ -21,7 +21,11 @@ public interface ResourceAddressService {
 
     Page<ResourceAddress> findAllByDeviceSN(int pageNo, int pageSize, String deviceSN);
 
+    Page<ResourceAddress> findAllByDeviceSNWithFilter(int pageNo, int pageSize, String deviceSN, String userid, int type);
+
     //int removeResourceAddress(ResourceAddress resourceAddress);
 
     int removeResourceAddress(ResourceAddress resourceAddress);
+
+    ResourceAddress findResourceById(ResourceAddress resourceAddress);
 }

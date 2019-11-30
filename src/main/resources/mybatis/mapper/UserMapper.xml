@@ -45,6 +45,20 @@
         or (cell_number =#{cellNumber} and password =#{password} and state = 1)
     </select>
 
+    <select id="getUserByCell" resultMap="UserResultMap">
+        select id
+        from users
+        where
+        cell_number =#{cellNumber} and state = 1
+    </select>
+
+    <select id="getUserByEmail" resultMap="UserResultMap">
+        select id
+        from users
+        where
+        email =#{email} and state = 1
+    </select>
+
     <select id="listAll" resultMap="UserResultMap">
         select id, username, icon,region cell_model, reg_time,email,cell_number,jpush_id
         from users

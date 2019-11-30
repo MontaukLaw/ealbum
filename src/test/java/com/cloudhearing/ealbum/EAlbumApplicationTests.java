@@ -80,19 +80,27 @@ public class EAlbumApplicationTests {
     //1023测试过
     //1103重新测试
     //1106测试
+    //1107测试
     public void getUserDetail() {
         User user = new User();
         user.setId("430f115d-eb30-11e9-acfd-00163e023e32");
         //System.out.println(userService.getUserDetail(user));
         System.out.println(userService.getUserDetail(user).getDevices());
-
-
-
     }
 
     //@Test
-    public void testGetUserJpushID(){
+    public void testGetUserJpushID() {
         System.out.println(userService.getUserJpushID("0067054a-ecca-11e9-acfd-00163e023e32"));
+    }
+
+    //@Test
+    public void testGetUserByCell() {
+        User user = new User();
+        user.setCellNumber("13714614102");
+        System.out.println(userService.getUserByCell(user));
+
+        user.setEmail("luoyong@hotmail.com");
+        System.out.println(userService.getUserByEmail(user));
     }
 
 }

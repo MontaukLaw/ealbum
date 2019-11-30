@@ -28,4 +28,8 @@ public interface DeviceService {
 
     String getDeviceJpushID(String sn);
 
+    Device getDeviceByEmail(Device device);
+
+
+
 }

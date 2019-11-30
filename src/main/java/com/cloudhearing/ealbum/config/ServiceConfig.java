@@ -32,38 +32,13 @@ public class ServiceConfig {
         return deviceSecret;
     }
 
-    public void setDeviceSecret(String deviceSecret) {
-        this.deviceSecret = deviceSecret;
-    }
-
     public String getAppKey() {
 
         return appKey;
     }
 
-    public void setAppKey(String appKey) {
-        this.appKey = appKey;
-    }
-
     public String getAppSecret() {
         return appSecret;
-    }
-
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
-    }
-
-    public void setDeviceAppKey(String deviceAppKey) {
-        this.deviceAppKey = deviceAppKey;
-    }
-
-
-    public void setApiAddress(String apiAddress) {
-        this.apiAddress = apiAddress;
-    }
-
-    public void setResultApiAddress(String resultApiAddress) {
-        this.resultApiAddress = resultApiAddress;
     }
 
     public String getApiAddress() {
