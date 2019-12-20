@@ -7,9 +7,18 @@ public class Device {
     private String region, model, sn, firmwareVersion;
     private int usedSpace, totalSpace;
     private String email, jpushId;
+    private String name;
     private Date activateTime, lastOnlineTime;
 
     private List<User> owners;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public List<User> getOwners() {
         return owners;
@@ -110,6 +119,7 @@ public class Device {
                 ", totalSpace=" + totalSpace +
                 ", email='" + email + '\'' +
                 ", jpushId='" + jpushId + '\'' +
+                ", name='" + name + '\'' +
                 ", activateTime=" + activateTime +
                 ", lastOnlineTime=" + lastOnlineTime +
                 ", owners=" + owners +

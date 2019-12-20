@@ -85,7 +85,8 @@ public class ResourceAddressController extends BaseController {
         int result = resourceAddressService.addResourceAddress(resourceAddress);
         if (result > 0) {
 
-            notifyToDeviceByUserID(userID, sn, resourceAddress.getType());
+            //这个接口现在只有邮箱处理会用, 去掉推送功能
+            //notifyToDeviceByUserID(userID, sn, resourceAddress.getType());
 
         } else {
 

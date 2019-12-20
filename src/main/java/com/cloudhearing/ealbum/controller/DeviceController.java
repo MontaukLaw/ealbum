@@ -1,22 +1,18 @@
 package com.cloudhearing.ealbum.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.cloudhearing.ealbum.entity.Device;
-import com.cloudhearing.ealbum.entity.JPushContent;
 import com.cloudhearing.ealbum.entity.User;
 import com.cloudhearing.ealbum.service.DeviceService;
 import com.cloudhearing.ealbum.service.UserService;
 import com.cloudhearing.ealbum.service.impl.JPushService;
 import com.cloudhearing.ealbum.utils.JsonMsg;
+import com.cloudhearing.ealbum.utils.TokenTool;
+import com.cloudhearing.okhttp.RegMailBox;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
@@ -58,6 +54,32 @@ public class DeviceController extends BaseController {
         return jsonMsg;
     }
 
+    private void notifyDeviceUpdateToUsers(Device device) {
+        List<User> userList = deviceService.getDeviceBySN(device).getOwners();
+        for (int i = 0; i < userList.size(); i++) {
+            String userJpushID = userList.get(i).getJpushId();
+
+            jPushService.pushDeviceUpdateToUser(device.getSn(), userJpushID);
+
+        }
+    }
+
+    @RequestMapping(value = "/devices/name", method = RequestMethod.PUT)
+    public JsonMsg updateDeviceName(Device device) {
+        int result = deviceService.updateDeviceName(device);
+
+        if (result > 0) {
+            notifyDeviceUpdateToUsers(device);
+
+        } else {
+            return feedbackErrorJson("Device update failed");
+        }
+
+        return feedbackJson(result);
+
+    }
+
+
 //    @GetMapping("/devices/{id}")
 //    public JsonMsg getDeviceByID(@PathVariable("id") String deviceId) {
 //        Device device = new Device();
@@ -73,13 +95,7 @@ public class DeviceController extends BaseController {
         int result = deviceService.updateDevice(device);
 
         if (result > 0) {
-            List<User> userList = deviceService.getDeviceBySN(device).getOwners();
-            for (int i = 0; i < userList.size(); i++) {
-                String userJpushID = userList.get(i).getJpushId();
-
-                jPushService.pushDeviceUpdateToUser(device.getSn(), userJpushID);
-
-            }
+            notifyDeviceUpdateToUsers(device);
 
         } else {
             return feedbackErrorJson("Device update failed");
@@ -89,11 +105,22 @@ public class DeviceController extends BaseController {
     }
 
     @PostMapping("/devices/")
-    public JsonMsg addDevice(Device device) {
+    public JsonMsg addDevice(Device device) throws Exception {
 
-        JsonMsg jsonMsg = feedbackJson(deviceService.addDevice(device));
+        //magic number, I like it
+        String emailName = TokenTool.getRandomUpcaseChars(8);
 
-        return jsonMsg;
+        if (RegMailBox.regMailbox(emailName)) {
+            device.setEmail(emailName);
+
+            if (deviceService.addDevice(device) > 0) {
+                return feedbackJson(emailName);
+            }
+            return feedbackErrorJson("Insert db failed");
+        }
+
+
+        return feedbackErrorJson("Reg email failed");
 
     }
 

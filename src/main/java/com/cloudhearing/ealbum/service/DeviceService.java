@@ -30,6 +30,8 @@ public interface DeviceService {
 
     Device getDeviceByEmail(Device device);
 
+    int updateDeviceName(Device device);
+
 
 
 }

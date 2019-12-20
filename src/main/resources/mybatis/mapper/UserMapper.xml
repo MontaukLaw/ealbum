@@ -25,7 +25,8 @@
         select user.id, user.username, user.icon, user.region, user.cell_model, user.reg_time,
         user.email, user.cell_number, user.jpush_id,
         device.activate_time device_activate_time,device.last_online_time
-        device_last_online_time,device.region device_region,device.model device_model,device.sn device_sn,
+        device_last_online_time,device.region device_region,device.model device_model,device.sn device_sn,device.name
+        device_name,
         device.firmware_version device_firmware_version,device.used_space
         device_used_space,device.total_space device_total_space,device.email device_email,device.jpush_id
         device_jpush_id
@@ -120,6 +121,24 @@
 
         </set>
         where id=#{id}
+    </update>
+
+    <update id="editUserByEmail">
+        update users
+        <set>
+            password = #{password},
+
+        </set>
+        where email=#{email}
+    </update>
+
+    <update id="editUserByCellNumber">
+        update users
+        <set>
+            password = #{password},
+
+        </set>
+        where cell_number=#{cellNumber}
     </update>
 
 </mapper>

@@ -18,6 +18,10 @@ public interface UserMapper {
 
     int editUser(User user);
 
+    int editUserByEmail(User user);
+
+    int editUserByCellNumber(User user);
+
     User getUserDetail(User user);
 
     String getUserJpushID(String id);

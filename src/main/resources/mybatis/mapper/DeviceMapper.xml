@@ -12,6 +12,8 @@
         <result column="total_space" property="totalSpace"/>
         <result column="email" property="email"/>
         <result column="jpush_id" property="jpushId"/>
+        <result column="name" property="name"/>
+
         <collection property="owners" columnPrefix="user_"
                     resultMap="com.cloudhearing.ealbum.mapper.UserMapper.UserResultMap"/>
     </resultMap>
@@ -39,7 +41,7 @@
     </select>
 
     <select id="getDeviceByEmail" resultMap="DeviceResultMap">
-        select device.activate_time,device.last_online_time,device.region,model,device.sn,
+        select device.activate_time,device.last_online_time,device.region,model,device.sn,device.name,
         device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
         user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
         user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email
@@ -54,7 +56,7 @@
     </select>
 
     <select id="getDeviceBySN" resultMap="DeviceResultMap">
-        select device.activate_time,device.last_online_time,device.region,model,device.sn,
+        select device.activate_time,device.last_online_time,device.region,model,device.sn,device.name,
         device.firmware_version,device.used_space,device.total_space,device.email,device.jpush_id,
         user.id user_id,user.username user_username, user.icon user_icon, user.cell_number user_cell_number,
         user.region user_region,user.cell_model user_cell_model,user.reg_time user_reg_time,user.email
@@ -71,11 +73,17 @@
 
     <insert id="addDevice" parameterType="Device">
         insert into devices
-        (activate_time, last_online_time,region,model,sn,firmware_version,jpush_id
+        (activate_time, last_online_time,region,model,sn,firmware_version,jpush_id,email,name
         )
         values
-        (now(),now(),#{region},#{model},#{sn},#{firmwareVersion},#{jpushId})
+        (now(),now(),#{region},#{model},#{sn},#{firmwareVersion},#{jpushId},#{email},#{name})
     </insert>
+
+    <update id="updateDeviceName">
+        update devices
+        set name = #{name}
+        where sn=#{sn}
+    </update>
 
     <update id="updateDevice">
         update devices

@@ -30,5 +30,5 @@ public interface DeviceMapper {
 
     String getDeviceJpushID(String id);
 
-
+    int updateDeviceName(Device device);
 }

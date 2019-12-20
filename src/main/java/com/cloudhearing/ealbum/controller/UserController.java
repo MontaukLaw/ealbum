@@ -41,9 +41,8 @@ public class UserController extends BaseController {
         return user;
     }
 
-    @PostMapping("/users/")
-    public JsonMsg addUser(User user) {
-        User u = encryptPassword(user);
+    //
+    private JsonMsg handleDuplicateException(User user) {
 
         String userCell = user.getCellModel();
         String userEmail = user.getEmail();
@@ -61,6 +60,22 @@ public class UserController extends BaseController {
                 return feedbackErrorJson("Duplicate email address.");
             }
         }
+        return new JsonMsg();
+
+    }
+
+    @PostMapping("/users/")
+    public JsonMsg addUser(User user) {
+
+        JsonMsg jsonMsg = handleDuplicateException(user);
+
+        if (!jsonMsg.isSuccess()) {
+            return jsonMsg;
+
+        }
+
+        User u = encryptPassword(user);
+
 
         String uuid = UUID.randomUUID().toString();
         u.setId(uuid);
@@ -94,11 +109,36 @@ public class UserController extends BaseController {
         return jsonMsg;
     }
 
+
+    @RequestMapping(value = "/users/password/byEmail", method = RequestMethod.PUT)
+    public JsonMsg updateUserPasswordByEmail(User user) {
+        User u = encryptPassword(user);
+        return feedbackJson(userService.editUserByEmail(u));
+
+    }
+
+    @RequestMapping(value = "/users/password/byCellNumber", method = RequestMethod.PUT)
+    public JsonMsg updateUserPasswordByCellNumber(User user) {
+        User u = encryptPassword(user);
+        return feedbackJson(userService.editUserByCellNumber(u));
+
+    }
+
     @RequestMapping(value = "/users/", method = RequestMethod.PUT)
     public JsonMsg updateUser(User user) {
+
+        JsonMsg jsonMsg = handleDuplicateException(user);
+
+        if (!jsonMsg.isSuccess()) {
+            return jsonMsg;
+
+        }
+
         User u = encryptPassword(user);
 
         int result = userService.editUser(u);
+
+
         if (result > 0) {
             List<Device> deviceList = userService.getUserDetail(user).getDevices();
             for (int i = 0; i < deviceList.size(); i++) {

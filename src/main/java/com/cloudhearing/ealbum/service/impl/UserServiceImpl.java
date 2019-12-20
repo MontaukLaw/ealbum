@@ -62,4 +62,17 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserByEmail(user);
     }
 
+
+    @Override
+    public int editUserByEmail(User user) {
+
+        return userMapper.editUserByEmail(user);
+    }
+
+    @Override
+    public int editUserByCellNumber(User user) {
+
+        return userMapper.editUserByCellNumber(user);
+    }
+
 }

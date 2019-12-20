@@ -65,5 +65,9 @@ public class DeviceServiceImpl implements DeviceService {
         return deviceMapper.getDeviceByEmail(device);
     }
 
+    @Override
+    public int updateDeviceName(Device device) {
+        return deviceMapper.updateDeviceName(device);
+    }
 
 }

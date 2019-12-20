@@ -25,4 +25,8 @@ public interface UserService {
     User getUserByCell(User user);
 
     User getUserByEmail(User user);
+
+    int editUserByEmail(User user);
+
+    int editUserByCellNumber(User user);
 }
