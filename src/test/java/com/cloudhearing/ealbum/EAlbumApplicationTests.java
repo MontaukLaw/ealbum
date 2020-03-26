@@ -103,4 +103,20 @@ public class EAlbumApplicationTests {
         System.out.println(userService.getUserByEmail(user));
     }
 
+    @Test
+    public void transNumberTest() {
+        //int source = -1012030810;
+
+        int source = 454761260;
+
+        System.out.println("int: " + Integer.toString(0x2c1b1b1b));
+
+        String hex = Integer.toHexString(source);
+        System.out.println("hex: " + hex);
+        //-1012030810 : c3 ad a2 a6
+        //454761260 : 1b 1b 1b 2c
+        //3 43 97 2c
+
+    }
+
 }

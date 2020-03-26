@@ -22,7 +22,7 @@ public class DeviceTest {
     public void contextLoads() {
     }
 
-    //@Test
+    @Test
     public void listAllTest() {
         System.out.println(deviceService.listAll());
     }
@@ -113,7 +113,7 @@ public class DeviceTest {
     }
 
 
-    @Test
+    //@Test
     public void testUpdateDeviceName() {
         Device device = new Device();
         device.setSn("somesn");
